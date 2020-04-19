@@ -2,18 +2,18 @@
   <div class="registration">
     <img  src="../assets/sign-up.svg" alt="Smiley face" height="42" width="42">
     <div class="whitespace"></div>
-    <form>
-      <b-form-input v-model="name" type=text class="inputs" placeholder="Enter your name"></b-form-input>
-      <b-form-input v-model="lastname" type=text class="inputs" placeholder="Enter your lastanme"></b-form-input>
-      <b-form-select v-model="gender" class="genderSelect" :options="options"></b-form-select>
+    <form v-on:submit.prevent="register">
+      <b-form-input v-model="user.name" type=text class="inputs" placeholder="Enter your name"></b-form-input>
+      <b-form-input v-model="user.lastname" type=text class="inputs" placeholder="Enter your lastanme"></b-form-input>
+      <b-form-select v-model="user.gender" class="genderSelect" :options="options"></b-form-select>
       <br/>
       <br/>
-      <b-form-input v-model="username" type=text class="inputs" placeholder="Enter your username"></b-form-input>
-      <b-form-input v-model="password" type=password class="inputs" placeholder="Enter your password"></b-form-input>
+      <b-form-input v-model="user.username" type=text class="inputs" placeholder="Enter your username"></b-form-input>
+      <b-form-input v-model="user.password" type=password class="inputs" placeholder="Enter your password"></b-form-input>
       <b-form-input v-model="repeatedpassword" type=password class="inputs" placeholder="Repeat password"></b-form-input>
       <br/>
 
-      <b-button class="btns" variant="outline-primary">Sign Up</b-button>
+      <b-button type=submit class="btns" variant="outline-primary">Sign Up</b-button>
     </form>
     
   </div>
@@ -33,7 +33,7 @@ export default {
        selected: null,
         options: [
           { value: 'none', text: 'Please select an option' },
-          { value: 'female', text: 'Female' },
+          { value: 'FEMALE', text: 'Female' },
           { value: 'male', text: 'Male' },
           { value: 'rathernotsay', text: 'Rather Not Say' }
         ],
@@ -41,8 +41,23 @@ export default {
         "Content-Type": "application/json"
       }
     };
-  }
+  },
+
+  methods: {
+     register : function(){
+        this.$http.post('http://localhost:8080/PocetniREST/rest/register', this.user ,{headers:this.headers}).then(() => {
+          alert('Registered');
+        }, (response) => {
+          if(response.status == 400){
+            alert('Error');
+          }
+        })
+    }
+  
+}
 };
+
+
 </script>
 
 <style scoped>
