@@ -47,14 +47,16 @@ export default {
     },
   },
 
-  created(){
+  mounted(){
     if(this.$session.exists()){
-    this.$http.post('http://localhost:8080/PocetniREST/rest/userinfo', this.$session.get('idOne') ,{headers:this.headers}).then((response) => {
+    this.$http.get(`http://localhost:8080/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+      console.log(response.body);
       this.role = response.body.role;
       if(this.role === "HOST"){
         this.host = true;
       } else if (response.body.role === "ADMIN"){
         this.admin = true;
+        alert("admin");
       } else if (response.body.role === "GUEST"){
         this.guest = true;
       }
