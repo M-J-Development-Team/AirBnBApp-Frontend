@@ -11,7 +11,7 @@
         <b-form-input v-model="user.username" type="text" class="inputs" placeholder="Username"></b-form-input>
         <b-form-input v-model="user.password" type="password" class="inputs" placeholder="Password"></b-form-input>
         <b-form-input
-          v-model="repeatedpassword"
+          
           type="password"
           class="inputs"
           placeholder="Repeat password"
@@ -34,7 +34,7 @@ export default {
         gender: "",
         username: "",
         password: "",
-        repeatedpassword: ""
+        
       },
       selected: null,
       options: [
@@ -58,6 +58,7 @@ export default {
         .then(
           () => {
             this.$swal("You are now registered");
+            this.$router.push('/login');
           },
           response => {
             if (response.status == 400) {
