@@ -2,8 +2,8 @@
   <div>
     <nav-bar :key="navBarKey"></nav-bar>
 
-    <router-view :key="updateKey" @changedView="forceRenderChange"></router-view>  
-    
+    <router-view :key="updateKey" @changedView="forceRenderChange"></router-view>
+
   </div>
 
 </template>
@@ -12,7 +12,7 @@
 import Navbar from './components/Navbar.vue'
 
 export default {
-  components: {   
+  components: {
      'nav-bar' : Navbar
 
   },
