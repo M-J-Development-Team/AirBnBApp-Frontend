@@ -15,26 +15,26 @@
       <!-- Text slides with image -->
       <b-carousel-slide
         caption="Venice, Italy"
-        text="Welcome to TravelApp.Where are here to make your travels easier!"
+        text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/italy.jpg"
       ></b-carousel-slide>
 
         <b-carousel-slide
         caption="Stockholm, Sweden"
-        text="Welcome to TravelApp.Where are here to make your travels easier!"
+        text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/stockholm.jpg"
       ></b-carousel-slide>
 
         <b-carousel-slide
         caption="Maldives"
-        text="Welcome to TravelApp.Where are here to make your travels easier!"
+        text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/chairs.jpeg"
       ></b-carousel-slide>
 
 
     <b-carousel-slide
         caption="Barcelona, Spain"
-        text="Welcome to TravelApp.Where are here to make your travels easier!"
+        text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/guell.jpg"
       ></b-carousel-slide>
 
