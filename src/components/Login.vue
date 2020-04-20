@@ -24,7 +24,7 @@
                                                    
                                     </b-row>
 
-                                   
+                                   <a href="/registration">Sign Up</a>
        
                                                                      
                                 </form>
