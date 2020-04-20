@@ -1,16 +1,34 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
-import './plugins/bootstrap-vue'
+import { BootstrapVue } from 'bootstrap-vue'
 import App from './App.vue'
+import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import Routes from './routes'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueSession from 'vue-session'
+import './plugins/bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.use(VueSweetalert2);
+Vue.use(BootstrapVue)
+Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(VueSession);
 
-Vue.config.productionTip = false
+
+
+const router = new VueRouter({
+  routes: Routes,
+  mode: 'history'
+});
+
+
 
 new Vue({
+  el: '#app',
   render: h => h(App),
-}).$mount('#app')
+  router: router
+})
