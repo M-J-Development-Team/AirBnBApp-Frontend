@@ -2,32 +2,36 @@
 
     <div class="background">
       
-                <div class="overflow-hidden"  align="center"  style="max-width: 350px;">
+                <div class="overflow-hidden"  align="center"  style="max-width: 370px;">
+                    <b-button class="dugme" v-on:click.prevent="cancelInfo" variant="outline-light"><b-img class="icon" src="../assets/close (2).png"/></b-button> 
                   
                     
                         
-                                <form class="forma">
+                                <form @submit.prevent="submitInfo" class="forma">
                                     <b-row >
                                         
-                                        <b-form-input id="input-lg" size="sm" placeholder="Username" ></b-form-input >                                 
+                                        <b-form-input id="input-lg" size="sm" placeholder="Username" v-model="user.username"></b-form-input >                                 
                                     </b-row>
                                    
                                    <b-row >
                                         
-                                        <b-form-input id="input-lg" size="sm" placeholder="Password" ></b-form-input >                                 
+                                        <b-form-input id="input-lg" size="sm" placeholder="Password" v-model="user.password"></b-form-input >                                 
                                     </b-row>
 
 
                                     <b-row >
-                                         <b-form-input id="submit-button" type="submit" value="Login" size="sm"></b-form-input>                 
+                                         <b-button id="submit-button" variant="outline-success" type="submit" size="sm">Login</b-button>  
+                                                   
                                     </b-row>
 
-                        
+                                   
+       
                                                                      
                                 </form>
                         
                    
-                    
+                         
+                         <div class="space"></div>
                 </div>
     </div>
           
@@ -36,11 +40,52 @@
 
 <script>
 export default {
-  name: "Login"
+  name: "Login",
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+      headers : {
+        'Content-Type' : 'application/json'
+      }
+    }
+  },
+
+  methods : {
+    submitInfo : function(){
+      this.$http.post('http://localhost:8080/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
+        if(response.ok){
+          this.$swal('You successfully logged in!');
+
+          this.$session.start(); 
+          this.$session.set('idOne', response.bodyText);
+          this.$http.headers.common['Authorization'] = 'Bearer ' + response.bodyText;
+          this.$router.push('/');
+          this.$emit('loggedIn');
+
+        }
+      }, (response) => {
+        if(response.status == 400){
+          this.$swal('Error. Please try again.');
+        }
+      });
+    },
+    cancelInfo : function() {
+      this.$router.push('/');
+    }
+  },
+  beforeCreate(){
+    if(this.$session.exists()){
+      this.$router.push('/');
+    }
+  }
+
 };
 </script>
 
-<style>
+<style scoped>
 .background {
   height: 100%;
   width: 100%;
@@ -57,8 +102,24 @@ export default {
   
 }
 
+.space{
+    height: 30px;
+}
+
 .label{
     text-align: right;
+}
+
+#link{
+  
+    text-align: left;
+    padding:50px;
+        
+}
+
+.dugme{
+    margin-left:88%;
+    margin-top:2%;
 }
 
 #submit-button{
@@ -84,7 +145,7 @@ export default {
 
 #submit-button{
     margin-left:22%;
-    margin-bottom: 10%;
+    margin-bottom: 6%;
     width: 100px;
 }
 
@@ -105,5 +166,10 @@ export default {
 
 h1 {
   margin-left: 50%;
+}
+
+.icon{
+    height: 15px;
+    width: 15px;
 }
 </style>
