@@ -55,9 +55,19 @@ export default {
 
   methods : {
     submitInfo : function(){
-      this.$http.post('http://localhost:8080/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
+        
+        if(this.user.username == "" || this.user.password == ""){
+
+            this.$swal("You didn't enter username or password. Please try again");
+
+            return;
+
+        }
+
+
+      this.$http.post('http://localhost:8082/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
         if(response.ok){
-          this.$swal('You successfully logged in!');
+         
 
           this.$session.start(); 
           this.$session.set('idOne', response.bodyText);
