@@ -47,7 +47,7 @@ export default {
     },
   },
 
-  mounted(){
+  created(){
     if(this.$session.exists()){
     this.$http.get(`http://localhost:8080/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
       console.log(response.body);
