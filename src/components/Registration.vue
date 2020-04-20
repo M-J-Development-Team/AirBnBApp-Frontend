@@ -3,13 +3,13 @@
     <img  src="../assets/sign-up.svg" alt="Smiley face" height="42" width="42">
     <div class="whitespace"></div>
     <form v-on:submit.prevent="register">
-      <b-form-input v-model="user.name" type=text class="inputs" placeholder="Enter your name"></b-form-input>
-      <b-form-input v-model="user.lastname" type=text class="inputs" placeholder="Enter your lastanme"></b-form-input>
+      <b-form-input v-model="user.name" type=text class="inputs" placeholder="Name"></b-form-input>
+      <b-form-input v-model="user.lastname" type=text class="inputs" placeholder="Lastanme"></b-form-input>
       <b-form-select v-model="user.gender" class="genderSelect" :options="options"></b-form-select>
       <br/>
       <br/>
-      <b-form-input v-model="user.username" type=text class="inputs" placeholder="Enter your username"></b-form-input>
-      <b-form-input v-model="user.password" type=password class="inputs" placeholder="Enter your password"></b-form-input>
+      <b-form-input v-model="user.username" type=text class="inputs" placeholder="Username"></b-form-input>
+      <b-form-input v-model="user.password" type=password class="inputs" placeholder="Password"></b-form-input>
       <b-form-input v-model="repeatedpassword" type=password class="inputs" placeholder="Repeat password"></b-form-input>
       <br/>
 
@@ -28,7 +28,8 @@ export default {
         lastname: "",
         gender: "",
         username: "",
-        password: ""
+        password: "",
+        repeatedpassword: ""
       },
        selected: null,
         options: [
@@ -45,13 +46,14 @@ export default {
 
   methods: {
      register : function(){
-        this.$http.post('http://localhost:8080/PocetniREST/rest/register', this.user ,{headers:this.headers}).then(() => {
-          alert('Registered');
+         this.$http.post('http://localhost:8080/PocetniREST/rest/register', this.user ,{headers:this.headers}).then(() => {
+          this.$swal('You are now registered');
         }, (response) => {
           if(response.status == 400){
             alert('Error');
           }
         })
+        
     }
   
 }
