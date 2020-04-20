@@ -63,6 +63,7 @@ export default {
           this.$session.set('idOne', response.bodyText);
           this.$http.headers.common['Authorization'] = 'Bearer ' + response.bodyText;
           this.$router.push('/');
+          location.reload();
           this.$emit('loggedIn');
 
         }
