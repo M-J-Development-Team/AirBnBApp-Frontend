@@ -37,6 +37,7 @@ export default {
     methods : {
     logout : function() {
       this.$http.post('http://localhost:8080/PocetniREST/rest/logout', this.$session.get('idOne') ,{headers:this.headers}).then((response) => {
+      this.$http.post('http://localhost:8082/PocetniREST/rest/logout', this.$session.get('idOne') ,{headers:this.headers}).then((response) => {
         console.log(response);
         this.$emit('logOut');
         this.$session.destroy();
@@ -50,8 +51,8 @@ export default {
 
   created(){
     if(this.$session.exists()){
-    this.$http.get(`http://localhost:8080/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
-      console.log(response.body);
+    this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+      
       this.role = response.body.role;
       if(this.role === "HOST"){
         this.host = true;
