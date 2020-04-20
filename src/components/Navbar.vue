@@ -4,10 +4,11 @@
 
     <div>
         <nav>
-        <router-link class="links" to="/"  v-tooltip.hover title="Home"><img src="../assets/homeicon.png" class="icon"/></router-link>
-        <router-link class="links" to="/login" v-if="!this.$session.exists()" v-tooltip.hover title="Login">Login</router-link>
-        <router-link class="links" to="/registration" v-if="!this.$session.exists()" v-tooltip.hover title="Registration">Registration</router-link>
-        <button v-if="this.$session.exists()" v-on:click.prevent="logout">Log Out</button>
+        <router-link class="links" to="/"   title="Home"><img src="../assets/homeicon.png" class="icon"/></router-link>
+        <router-link class="links" to="/login" v-if="!this.$session.exists()"  title="Login">Login</router-link>
+        <router-link class="links" to="/registration" v-if="!this.$session.exists()" title="Registration">Registration</router-link>
+        <router-link class="links"  title="My info" v-if="this.$session.exists()" to="/myinfo"><img class="icon" src="../assets/myprofile.png"/></router-link>
+        <b-button class="links"  title="Log out" variant="outline-light" v-if="this.$session.exists()" v-on:click.prevent="logout"><img class="logout" src="../assets/logout.png"/></b-button>
         </nav>
     
     </div>
@@ -97,8 +98,13 @@ header{
     
 }
 
+.logout{
+    width: 25px;
+    height: 25px;
+}
+
 .links{
-    margin-left: 10px;
+    margin-left: 7px;
 }
 
 
