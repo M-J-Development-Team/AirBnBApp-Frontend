@@ -93,8 +93,6 @@ header{
 }
 
 .icon{
-    width: 40x;
-    height: 40px;
     width: 32x;
     height: 32px;
     margin-top: 3px;
