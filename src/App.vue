@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar :key="navBarKey"></nav-bar>
+    <nav-bar :key="navBarKey" @logOut="forceRerender"></nav-bar>
 
     <router-view :key="updateKey" @changedView="forceRenderChange"></router-view>
 
