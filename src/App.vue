@@ -1,19 +1,38 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <nav-bar :key="navBarKey"></nav-bar>
+
+    <router-view :key="updateKey" @changedView="forceRenderChange"></router-view>  
+    
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar.vue'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  components: {   
+     'nav-bar' : Navbar
+
+  },
+
+  data() {
+    return {
+      navBarKey: 0,
+      updateKey: 1000
+    }
+  },
+  methods : {
+        forceRerender(){
+      this.navBarKey += 1;
+    },
+    forceRenderChange(){
+      this.updateKey += 1;
+    }
   }
 }
+
 </script>
 
 <style>
@@ -25,4 +44,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+
+
+
+
 </style>
