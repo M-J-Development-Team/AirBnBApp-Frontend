@@ -15,7 +15,7 @@
                                    
                                    <b-row >
                                         
-                                        <b-form-input id="input-lg" size="sm" placeholder="Password" v-model="user.password"></b-form-input >                                 
+                                        <b-form-input id="input-lg" size="sm" placeholder="Password" type="password" v-model="user.password"></b-form-input >                                 
                                     </b-row>
 
 
