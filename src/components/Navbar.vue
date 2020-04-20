@@ -6,6 +6,7 @@
         <nav>
         <router-link class="links" to="/"  v-tooltip.hover title="Home"><img src="../assets/homeicon.png" class="icon"/></router-link>
         <router-link class="links" to="/login" v-if="!this.$session.exists()" v-tooltip.hover title="Login">Login</router-link>
+        <router-link class="links" to="/registration" v-if="!this.$session.exists()" v-tooltip.hover title="Registration">Registration</router-link>
         </nav>
     
     </div>
