@@ -20,7 +20,7 @@
 
 
                                     <b-row >
-                                         <b-button id="submit-button" variant="outline-success" type="submit" size="sm">Login</b-button>  
+                                         <b-button id="submit-button" variant="outline-success"  type="submit" size="sm">Login</b-button>  
                                                    
                                     </b-row>
 
@@ -72,6 +72,7 @@ export default {
           this.$session.start(); 
           this.$session.set('idOne', response.bodyText);
           this.$http.headers.common['Authorization'] = 'Bearer ' + response.bodyText;
+
           this.$router.push('/');
           location.reload();
           this.$emit('loggedIn');
@@ -83,9 +84,12 @@ export default {
         }
       });
     },
+
+    
     cancelInfo : function() {
       this.$router.push('/');
-    }
+    },
+    
   },
   beforeCreate(){
     if(this.$session.exists()){
