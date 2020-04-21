@@ -28,7 +28,7 @@ export default {
         host: false,
         admin: false,
         guest: false,
-        
+
         headers : {
           'Content-Type' : 'application/json'
         }
@@ -41,7 +41,8 @@ export default {
         console.log(response);
         this.$emit('logOut');
         this.$session.destroy();
-        this.$router.push('/')
+        this.$router.push('/').catch(err => {});
+        location.reload();
         
         }, () =>{
             this.swal("Logged Out!")
