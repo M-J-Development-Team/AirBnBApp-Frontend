@@ -41,7 +41,7 @@ export default {
         console.log(response);
         this.$emit('logOut');
         this.$session.destroy();
-        this.$router.push('/').catch(err => {});
+        this.$router.push('/');
         location.reload();
         
         }, () =>{
