@@ -44,19 +44,19 @@
 
       
 
-      <b-card class="card">
+      <b-card class="card" v-if="this.$session.exists() && admin">
         <div class="smallcard">
       <b-img src="../assets/sea-waves.png" class="icon"/>
         </div>
-      <b-button class="button" title="Users" variant="outline-primary" v-if="this.$session.exists() && admin" v-on:click.prevent="goToUsersPage">All users</b-button>
-      <b-button class="button" title="Apartments" variant="outline-primary" v-if="this.$session.exists() && admin" >All apartments</b-button>
-      <b-button class="button" title="Amenities" variant="outline-primary" v-if="this.$session.exists() && admin" >All amenities</b-button>
-      <b-button class="button" title="Reservations" variant="outline-primary" v-if="this.$session.exists() && admin" >All reservations</b-button>
+      <b-button class="button" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage">All users</b-button>
+      <b-button class="button" title="Apartments" variant="outline-primary" >All apartments</b-button>
+      <b-button class="button" title="Amenities" variant="outline-primary"  >All amenities</b-button>
+      <b-button class="button" title="Reservations" variant="outline-primary">All reservations</b-button>
 
       </b-card>
 
 
-      <b-card class="welcomecard">
+      <b-card class="welcomecard" v-if="this.$session.exists() && admin">
         <h1>@{{this.username}}</h1>
       
       </b-card>
@@ -89,7 +89,7 @@ export default {
     },
   },
 
-   beforeCreate(){
+  created(){
       
     if(this.$session.exists()){
 
