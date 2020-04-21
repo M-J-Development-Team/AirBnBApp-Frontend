@@ -2,7 +2,7 @@
 
     <div>
         <b-card :title="user.username" style="text-transform:capitalize" class="card">
-            <b-img src="../assets/myprofile.png" class="photo"></b-img>
+            <b-img src="../assets/talk.png" class="photo"></b-img>
             <b-form @submit.prevent="submitInfo" class="forma">
 
 
