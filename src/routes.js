@@ -5,6 +5,7 @@ import Navbar from './components/Navbar.vue'
 import Registration from './components/Registration.vue'
 import MyInfo from './components/MyInfo.vue'
 import AllUsers from './components/AllUsers.vue'
+import AddApartment from './components/AddApartment.vue';
 
 
 
@@ -14,5 +15,6 @@ export default[
     { path: '/registration', component: Registration},
     { path: '/myinfo', component: MyInfo},
     { path: '/allusers', component: AllUsers},
+    { path: '/addapartment', component: AddApartment},
     
 ]
