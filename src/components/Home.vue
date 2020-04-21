@@ -46,11 +46,11 @@
 
       <b-card class="card" v-if="this.$session.exists()">
         <div class="smallcard" v-if="admin">
-      <b-img src="../assets/sea-waves.png" class="icon"/>
+      <b-img src="../assets/tentt.png" class="icon"/>
         </div>
       <b-button class="button" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
       <b-button class="button" title="Apartments" variant="outline-primary" v-if=" admin" >All apartments</b-button>
-      <b-button class="button" title="Amenities" variant="outline-primary" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
+      <b-button class="button" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
       <b-button class="button" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
 
       <b-button class="button" title="Apartments" variant="outline-success" v-if="host" >My apartments</b-button>
@@ -65,9 +65,13 @@
 
       <b-card class="addingcard" v-if="this.$session.exists()">
 
-              <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/host.png" v-if="admin"></b-avatar>
+              <b-avatar id="hoAvatar" style="padding:10px;height:100px;width:100px" variant="light" src="../assets/home.png" v-if="admin"></b-avatar>
               <br/>
-              <b-button v-b-modal.modal-1 class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add host</b-button>      
+              <b-button id="hoButton" v-b-modal.modal-1 title="Host" variant="outline-primary" v-if="admin" >Add host</b-button>
+
+              <b-avatar id="amAvatar" style="padding:5px;height:80px;width:80px" variant="light" src="../assets/vacuum.png" v-if="admin"></b-avatar>
+              <br/>
+              <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>            
 
               
               <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/beach.png" v-if="host"></b-avatar>
@@ -100,6 +104,18 @@
 
 
     </b-modal>
+
+    <b-modal id="modal-2" title="Add amenity" hide-footer="true" v-if="this.$session.exists() && admin">
+        <form v-on:submit.prevent="addAmenity">
+        <b-form-input  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
+        <br />
+             <b-form-group>
+            <b-form-file  style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
+        </b-form-group>
+        <br/>
+        <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
+        </form>
+    </b-modal>
       </b-card>
 
 
@@ -120,6 +136,7 @@ export default {
         username:'',
         hostObject:{name:'',lastname:'',password:'',repeatedPassword:'',username:'',gender:''},
         selected: null,
+        amenityObject: {name: '', image: ''},
         options: [
         { value: "none", text: "Please select an option" },
         { value: "FEMALE", text: "Female" },
@@ -140,6 +157,22 @@ export default {
     goToAmenitiesPage : function() {
       this.$router.push('/allamenities')
     },
+
+    onFileSelected(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+                // create a new FileReader to read this image and convert to base64 format
+                var reader = new FileReader();
+                // Define a callback function to run, when FileReader finishes its job
+                reader.onload = (e) => {
+                    // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+                    // Read image as base64 and set to imageData
+                    this.amenityObject.image = e.target.result;
+                }
+                // Start the reader job - read file as a data url (base64 format)
+                reader.readAsDataURL(input.files[0]);
+            }
+      },
 
     addApartment : function() {
       this.$router.push('/addapartment')
@@ -173,6 +206,30 @@ export default {
           response => {
             if (response.status == 400) {
               this.$swal("User with this username already exists.");
+            }
+          }
+        );
+    },
+
+
+    addAmenity: function() {
+
+      if(this.amenityObject.name == ""){
+        this.$swal("Please fill out the name field");
+        return;
+      }
+
+      var object = {name:this.amenityObject.name}
+    
+      this.$http.post("http://localhost:8082/PocetniREST/rest/addamenity", object, {headers: this.headers}).then(() => {
+          this.$swal("Amenity is added");
+          location.reload();
+          
+            
+          },
+          response => {
+            if (response.status == 400) {
+              this.$swal("Amenity with this name already exists.");
             }
           }
         );
@@ -218,6 +275,7 @@ export default {
     margin-top:20%;
 }
 
+
 .icon{
   width: 100px;
   height: 100px;
@@ -249,7 +307,6 @@ export default {
     margin-left: 10%;
     width: 200px;
 }
-
 .addingcard{
 
   margin-left:40%;
@@ -260,6 +317,27 @@ export default {
   text-align: center;
 
 
+}
+
+#amButton {
+  margin-top: -30%;
+  width: 85px;
+  margin-left: 2%;
+}
+
+#amAvatar {
+  margin-left: -6%;
+  margin-top: -62%;
+}
+
+#hoAvatar {
+  margin-right: 70%;
+}
+
+#hoButton {
+  margin-right: 80%;
+  margin-top: 5%;
+  margin-left: 8.5%;
 }
 
 
