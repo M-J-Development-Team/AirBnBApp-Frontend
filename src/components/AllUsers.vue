@@ -1,6 +1,8 @@
 <template>
 
-        
+    <div>
+        hello
+    </div>    
   
 </template>
 
@@ -9,15 +11,18 @@ export default {
   name: "AllUsers",
   data() {
     return {
-      users:[],
-      headers : {
-        'Content-Type' : 'application/json'
+        users: "",
+        host: false,
+        admin: false,
+        guest: false,
+        
+        headers : {
+          'Content-Type' : 'application/json'
+        }
       }
-    }
   },
 
   methods : {
-
       
   
   }
