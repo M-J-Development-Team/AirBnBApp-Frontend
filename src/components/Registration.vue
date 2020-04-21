@@ -40,7 +40,7 @@ export default {
       options: [
         { value: "none", text: "Please select an option" },
         { value: "FEMALE", text: "Female" },
-        { value: "male", text: "Male" },
+        { value: "MALE", text: "Male" },
         { value: "rathernotsay", text: "Rather Not Say" }
       ],
       headers: {

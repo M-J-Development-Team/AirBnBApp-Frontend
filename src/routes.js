@@ -6,6 +6,7 @@ import Registration from './components/Registration.vue'
 import MyInfo from './components/MyInfo.vue'
 import AllUsers from './components/AllUsers.vue'
 import AllAmenities from './components/AllAmenities.vue'
+import AddApartment from './components/AddApartment.vue';
 
 
 
@@ -16,5 +17,6 @@ export default[
     { path: '/myinfo', component: MyInfo},
     { path: '/allusers', component: AllUsers},
     { path: '/allamenities', component: AllAmenities},
+    { path: '/addapartment', component: AddApartment},
     
 ]
