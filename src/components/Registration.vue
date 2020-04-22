@@ -61,7 +61,7 @@ export default {
             this.$router.push('/login');
           },
           response => {
-            if (response.status == 400) {
+            if (response.status == 401) {
               alert("Error");
             }
           }
