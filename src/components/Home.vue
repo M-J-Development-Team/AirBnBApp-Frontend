@@ -45,21 +45,28 @@
       
 
       <b-card class="card" v-if="this.$session.exists()">
-        <div class="smallcard" v-if="admin">
-      <b-img src="../assets/tentt.png" class="icon"/>
+        <div class="smallcard">
+      <b-avatar v-if="admin" src="../assets/tentt.png" variant="light" style="height:150px;width:150px"></b-avatar>
+      <b-avatar v-if="host" src="../assets/balloon.png" variant="light" style="height:150px;width:150px"></b-avatar>
+       <b-avatar variant="light" src="../assets/passport (1).png" v-if="guest" style="width:150px;height:150px"></b-avatar>
         </div>
       <b-button class="button" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
-      <b-button class="button" title="Apartments" variant="outline-primary" v-if=" admin" >All apartments</b-button>
+      <b-button class="button" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments</b-button>
       <b-button class="button" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
       <b-button class="button" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
 
-      <b-button class="button" title="Apartments" variant="outline-success" v-if="host" >My apartments</b-button>
+      <b-button class="button" title="Apartments" variant="outline-success" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
+      <b-button class="button" title="My guests" variant="outline-success" v-if="host" >My guests</b-button>
+      <b-button class="button" title="Reservations" variant="outline-success" v-if="host" >Reservations </b-button>
+
+      <b-button class="button" title="My reservations" variant="outline-success" v-if="guest" >My reservations</b-button>
+
 
       </b-card>
 
 
       <b-card class="welcomecard" v-if="this.$session.exists()">
-        <h1>@{{this.username}}</h1>
+        <h1 class="username">@{{this.username}}</h1>
       
       </b-card>
 
@@ -74,11 +81,15 @@
               <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>            
 
               
-              <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/beach.png" v-if="host"></b-avatar>
+              <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/beachhouse.png" v-if="host"></b-avatar>
               <br/>
               <b-button class="button" title="Apartment" @click="addApartment" style="marginRight:7%" variant="outline-success" v-if="host" >Add apartment</b-button>      
 
-
+              
+              <b-avatar style="marginTop:-60px;height:100px;width:100px;" variant="light" src="../assets/travelling.png" v-if="guest"></b-avatar>
+              <br/>
+              <b-button class="button" title="See all apartments" style="marginRight:10%" variant="outline-success" v-if="guest" >Search for apartment</b-button>      
+              
 
         <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">
       
@@ -177,6 +188,9 @@ export default {
     addApartment : function() {
       this.$router.push('/addapartment')
     },
+    goToApartmentsPage : function() {
+      this.$router.push('/apartments')
+    },
 
     addHost: function() {
 
@@ -219,7 +233,7 @@ export default {
         return;
       }
 
-      var object = {name:this.amenityObject.name}
+      var object = {name:this.amenityObject.name,image:this.amenityObject.image,amenityStatus:'ACTIVE'}
     
       this.$http.post("http://localhost:8082/PocetniREST/rest/addamenity", object, {headers: this.headers}).then(() => {
           this.$swal("Amenity is added");
@@ -313,10 +327,14 @@ export default {
   margin-top:24%;
   width: 35%;
   height: auto;
-  position: absolute;
+  position: fixed;
   text-align: center;
 
 
+}
+
+.username{
+  color:rgb(151, 204, 151);
 }
 
 #amButton {
@@ -357,13 +375,14 @@ export default {
   margin-left:0px;
   text-align:center;
   margin-bottom:10px;
+
 }
 
 .welcomecard{
   margin-left:40%;
   width: 35%;
   height: auto;
-  position: absolute;
+  position: fixed;
   text-align: right;
 }
 
