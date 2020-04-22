@@ -4,11 +4,14 @@
 
     <div>
         <nav>
-        <router-link class="links" to="/"   title="Home"><img src="../assets/kawaiihouse.png" class="icon"/></router-link>
-        <router-link class="links" to="/login" v-if="!this.$session.exists()"  title="Login">Login</router-link>
-        <router-link class="links" to="/registration" v-if="!this.$session.exists()" title="Registration">Registration</router-link>
-        <router-link class="links"  title="My info" v-if="this.$session.exists()" to="/myinfo"><img class="icon" src="../assets/usernew.png"/></router-link>
-        <b-button    class="links"  title="Log out" variant="outline-light" v-if="this.$session.exists()" v-on:click.prevent="logout"><img class="logout" src="../assets/logout.png"/></b-button>
+        <router-link class="links" to="/"  v-b-tooltip.hover title="Home"><img src="../assets/kawaiihouse.png" class="icon"/></router-link>
+        <router-link class="links" to="/" v-b-tooltip.hover title="See apartments" v-if="(this.$session.exists() && guest) || (!this.$session.exists())"><b-avatar src="../assets/find (1).png" style="height:32px;width:32px" variant="light"></b-avatar></router-link>
+
+
+        <router-link class="links" v-b-tooltip.hover title="Login" to="/login" v-if="!this.$session.exists()" >Login</router-link>
+        <router-link class="links" v-b-tooltip.hover title="Register" to="/registration" v-if="!this.$session.exists()" >Registration</router-link>
+        <router-link class="links" v-b-tooltip.hover title="My info"  v-if="this.$session.exists()" to="/myinfo"><img class="icon" src="../assets/usernew.png"/></router-link>
+        <b-button    class="links"  v-b-tooltip.hover title="Log out" variant="outline-light" v-if="this.$session.exists()" v-on:click.prevent="logout"><img class="logout" src="../assets/logout.png"/></b-button>
         </nav>
     
     </div>
@@ -80,7 +83,7 @@ export default {
 <style scoped>
 
 header{
-    position: fixed; 
+    position: absolute; 
     top: 0; 
     width: 100%; 
     background-color: rgba(235, 246, 255,0.7);
