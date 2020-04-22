@@ -10,9 +10,10 @@
         <b-list-group style="width:100%;marginTop:20px;" v-for="user in users" @input="filterUsers" v-bind:key="user.username">
 
             <b-list-group-item class="d-flex align-items-center">
-                <b-avatar class="mr-3" v-if="user.role =='ADMIN'" variant="light" src="../assets/gear.png" ></b-avatar>
-                <b-avatar class="mr-3" v-if="user.role =='HOST'" variant="light" src="../assets/host.png"></b-avatar>
-                <b-avatar class="mr-3" v-if="user.role =='GUEST'" variant="light" src="../assets/useravatar1.png"></b-avatar>
+                <b-avatar class="mr-3" v-if="user.role =='ADMIN'" variant="light" src="../assets/setting.png" ></b-avatar>
+                <b-avatar class="mr-3" v-if="user.role =='HOST'" variant="light" src="../assets/home.png"></b-avatar>
+                <b-avatar class="mr-3" v-if="user.role =='GUEST' && user.gender=='MALE'" variant="light" src="../assets/male.png"></b-avatar>
+                <b-avatar class="mr-3" v-if="user.role =='GUEST' && user.gender=='FEMALE'" variant="light" src="../assets/female.png"></b-avatar>
                 <span class="mr-auto">@ {{user.username}}</span>
                 <b-badge>{{user.role}}</b-badge>
             </b-list-group-item>
