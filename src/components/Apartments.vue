@@ -31,7 +31,8 @@
         <b-list-group-item class="d-flex align-items-center">
           <b-avatar class="mr-3" variant="light" src="../assets/beachhouse.png"></b-avatar>
           <span class="mr-auto">{{apartment.name}}</span>
-                <b-button variant="outline-danger" v-on:click="deleteApartment(apartment.name)">Delete</b-button>
+                <b-button  variant="outline-danger" v-on:click="deleteApartment(apartment.name)">Delete</b-button>
+                <b-badge class="appStatus">{{apartment.status}}</b-badge>
         </b-list-group-item>
       </b-list-group>
     </b-card>
@@ -180,6 +181,7 @@ export default {
                 })
                 .then(response => {
                   this.allApartments = response.body;
+                  console.log(this.allApartments);
                 });
             } else {
               this.$router.push("/");
@@ -206,6 +208,12 @@ export default {
   margin-left: 50%;
   margin-top: 9%;
   position: absolute;
+}
+
+.appStatus {
+  padding: 10px;
+  margin: 10px;
+  background-color: rgb(0, 191, 197);
 }
 
 </style>
