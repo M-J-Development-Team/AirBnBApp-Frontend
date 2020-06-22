@@ -31,6 +31,7 @@
         <b-list-group-item class="d-flex align-items-center">
           <b-avatar class="mr-3" variant="light" src="../assets/beachhouse.png"></b-avatar>
           <span class="mr-auto">{{apartment.name}}</span>
+                <b-button variant="outline-danger" v-on:click="deleteApartment(apartment.name)">Delete</b-button>
         </b-list-group-item>
       </b-list-group>
     </b-card>
@@ -113,7 +114,21 @@ export default {
                 
                 this.apartmentsAll = this.apartmentsAll.filter(apartment => (apartment.name.indexOf(p) > -1) ); 
                 console.log()      
-       }
+       },
+
+        deleteApartment(name) {
+        this.$http.delete(`http://localhost:8082/PocetniREST/rest/apartments/delete/${name}`,{headers:this.headers}).then((response) =>{
+
+          if(response.ok) {
+            
+          alert('Apartment is deleted!')
+          window.location.reload();
+          } else if(response.status == 400) {
+            alert("error")
+          }
+          
+        })
+      }
   },
 
   created() {
