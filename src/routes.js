@@ -8,6 +8,8 @@ import AllUsers from './components/AllUsers.vue'
 import AllAmenities from './components/AllAmenities.vue'
 import AddApartment from './components/AddApartment.vue';
 import Apartments from './components/Apartments.vue'
+import ReserveApartment from './components/ReserveApartment.vue'
+import Reservations from './components/Reservations.vue'
 
 
 
@@ -20,5 +22,7 @@ export default[
     { path: '/allamenities', component: AllAmenities},
     { path: '/addapartment', component: AddApartment},
     { path: '/apartments', component: Apartments},
+    { path: '/reservethis/:name', component: ReserveApartment },
+    { path: '/allreservations', component: Reservations},
     
 ]
