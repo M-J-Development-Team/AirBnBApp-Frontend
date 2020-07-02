@@ -10,7 +10,7 @@
         <b-list-group style="width:100%;marginTop:20px;" v-for="amenity in amenities" @input="filterAmenities" v-bind:key="amenity.name">
 
             <b-list-group-item class="d-flex align-items-center">
-                <span class="mr-auto">@ {{amenity.name}}</span>
+                <span class="mr-auto"> {{amenity.name}}</span>
                 <b-button variant="outline-danger" v-on:click="deleteAmenity(amenity.name)">Delete</b-button>
             </b-list-group-item>
     
@@ -23,7 +23,7 @@
 <script>
 
 export default {
-  name: "AllUsers",
+  name: "AllAmenities",
   data() {
     return {
         amenities: [],
@@ -47,16 +47,12 @@ export default {
                 }
                 
                 this.amenities = this.amenities.filter(amenity => (amenity.name.indexOf(p) > -1) );
-                
-                
-            
-             
              
        },
 
        deleteAmenity(name) {
         this.$http.delete(`http://localhost:8082/PocetniREST/rest/amenity/delete/${name}`,{headers:this.headers}).then(() =>{
-          alert('Oglas je obrisan!')
+          alert('Amenity is deleted!')
           window.location.reload();
           
         })

@@ -1,7 +1,6 @@
 <template>
-
     <div>
-             <b-button variant="outline-light" style="marginTop:9%;marginLeft:1%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
+        <b-button variant="outline-light" style="marginTop:9%;marginLeft:1%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
 
         <b-card class="card" v-if="isHost">
           <b-row inline v-if="isHost">
@@ -53,7 +52,7 @@
         <h1 v-if="isHost" style="padding:6px">My inactive apartments</h1>
         </b-row>
         <b-input id="input-lg" style="marginTop:10px" size="sm" placeholder="Enter apartment name" @input="filterInactiveApartments" v-model="parameterD" type="search" ></b-input >
-        
+
              <b-list-group style="width:100%;marginTop:20px;" v-for="apartment in this.apartmentsInactive"  v-bind:key="apartment.idOne">
 
             <b-list-group-item class="d-flex align-items-center">
@@ -61,18 +60,17 @@
                 <span class="mr-auto">{{apartment.name}}</span>
                 <b-button variant="outline-success" @click="edit(apartment.idOne)">Edit</b-button>
                 <b-button style="marginLeft:7px" variant="outline-danger" @click="deleteApartment(apartment.idOne)">Delete</b-button>
-                
+
             </b-list-group-item>
-    
+
     </b-list-group>
         </b-card>
-        
-       
 
-    
+
+
+
     </div>
-          
-  
+
 </template>
 
 <script>
@@ -96,7 +94,7 @@ export default {
       value:[],
       headers : {
         'Content-Type' : 'application/json'
-      }   
+      }
     }
   },
   methods:{
@@ -109,7 +107,7 @@ export default {
       this.$http.delete(`http://localhost:8082/PocetniREST/rest/apartments/delete/${id}`,{headers:this.headers}).then(response =>{
         location.reload();
         console.log(response.body);
-        
+
 
         })
     },
@@ -122,16 +120,30 @@ export default {
      filterActiveApartments : function(p){
                 if(p == ""){
                     this.apartmentsActive = this.allActive;
-                }        
-                this.apartmentsActive = this.apartmentsActive.filter(a => (a.name.indexOf(p) > -1));     
+                }
+                this.apartmentsActive = this.apartmentsActive.filter(a => (a.name.indexOf(p) > -1));
        },
 
         filterInactiveApartments : function(p){
                 if(p == ""){
                     this.apartmentsInactive = this.allInactive;
                 }
-                this.apartmentsInactive = this.apartmentsInactive.filter(a => (a.name.indexOf(p) > -1));     
+                this.apartmentsInactive = this.apartmentsInactive.filter(a => (a.name.indexOf(p) > -1));
        },
+
+       filterAllApartments : function(p){
+
+
+               console.log(p);
+
+
+               if(p == ""){
+                   this.apartmentsAll = this.allApartments;
+               }
+
+               this.apartmentsAll = this.apartmentsAll.filter(apartment => (apartment.name.indexOf(p) > -1) );
+               console.log()
+      },
   },
 
 
@@ -140,38 +152,37 @@ export default {
       if(this.$session.exists()){
 
         this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
-      
+
+
       if(response.status == 400){
           this.$swal('Error');
       }else{
-      
+
       this.user = response.body;
-      console.log(this.user);
-      
-             
+
+
       if(this.user.role === "HOST"){
-         
+
         this.isHost = true;
 
-
         this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/all/${this.$session.get('idOne')}`,{headers:this.headers}).then(response =>{
-        
-        this.apartmentsActive = response.body; 
+
+        this.apartmentsActive = response.body;
         this.allActive =  response.body;
         console.log(this.apartmentsActive);
 
         this.allApartments = response.body;
-        
+
 
         })
 
         this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/inactive/all/{idOne}${this.$session.get('idOne')}`,{headers:this.headers}).then(response =>{
-        
+
         this.apartmentsInactive = response.body;
         this.allInactive = response.body;
         console.log(this.apartmentsInactive);
         })
-        
+
          this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/all`,{headers:this.headers}).then(response =>{
 
             this.allApartments = response.body;
@@ -180,7 +191,7 @@ export default {
 
 
       } else if (this.user.role === "ADMIN"){
-           
+
         this.isAdmin = true;
 
           this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/all`,{headers:this.headers}).then(response =>{
@@ -192,35 +203,51 @@ export default {
       } else{
           this.$router.push('/');
           location.reload();
-      }
 
-      
-        
+        deleteApartment(name) {
+        this.$http.delete(`http://localhost:8082/PocetniREST/rest/apartments/delete/${name}`,{headers:this.headers}).then((response) =>{
+
+          if(response.ok) {
+
+          alert('Apartment is deleted!')
+          window.location.reload();
+          } else if(response.status == 400) {
+            alert("error")
+          }
+
+        })
       }
-    })
-                 
+  },
+
+  }
+
   }
   }
-
+  }
 
 };
 </script>
 
 <style scoped>
-
-.card{
-    margin-top:9%;
-    margin-left:7%;
-    width: 40%;
-    height: auto;
-    position: absolute;
+.card {
+  margin-top: 9%;
+  margin-left: 7%;
+  width: 40%;
+  height: auto;
+  position: absolute;
 }
 
-.deletedApartments{
-  height:auto;
+.deletedApartments {
+  height: auto;
   margin-left: 50%;
-  margin-top:9%;
-  position:absolute;
-
+  margin-top: 9%;
+  position: absolute;
 }
+
+.appStatus {
+  padding: 10px;
+  margin: 10px;
+  background-color: rgb(0, 191, 197);
+}
+
 </style>
