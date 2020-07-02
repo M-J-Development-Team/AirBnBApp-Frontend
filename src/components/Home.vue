@@ -70,14 +70,12 @@
          <h1 class="username">@{{this.username}}</h1>
         
             <br/>
-        <b-button class="button" title="My reservations" variant="light" v-if="guest" >My reservations 
+        <b-button class="button" title="My reservations" v-on:click.prevent="goToReservationsPage" variant="light" v-if="guest" >My reservations 
           <b-avatar variant="light" src="../assets/passport (1).png" v-if="guest" style="width:50px;height:50px"></b-avatar>
         </b-button>
         </div>
 
      </b-card>
-
-      <b-button class="button" title="My reservations" variant="outline-success"  v-on:click.prevent="goToReservationsPage" v-if="guest" >My reservations</b-button>
     <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
 
       <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
