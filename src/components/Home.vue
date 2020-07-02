@@ -59,7 +59,7 @@
       <b-button class="button" title="My guests" variant="outline-success" v-if="host" >My guests</b-button>
       <b-button class="button" title="Reservations" variant="outline-success" v-if="host" >Reservations </b-button>
 
-      <b-button class="button" title="My reservations" variant="outline-success" v-if="guest" >My reservations</b-button>
+      <b-button class="button" title="My reservations" variant="outline-success"  v-on:click.prevent="goToReservationsPage" v-if="guest" >My reservations</b-button>
 
 
       </b-card>
@@ -88,7 +88,7 @@
               
               <b-avatar style="marginTop:-60px;height:100px;width:100px;" variant="light" src="../assets/travelling.png" v-if="guest"></b-avatar>
               <br/>
-              <b-button class="button" title="See all apartments" style="marginRight:10%" variant="outline-success" v-if="guest" >Search for apartment</b-button>      
+              <b-button class="button" title="See all apartments" style="marginRight:10%" variant="outline-success"  v-on:click.prevent="goToSearchApartmentPage" v-if="guest" >Search for apartment</b-button>      
               
 
         <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">
@@ -167,6 +167,14 @@ export default {
     },
     goToAmenitiesPage : function() {
       this.$router.push('/allamenities')
+    },
+
+    goToSearchApartmentPage : function() {
+      this.$router.push('/apartments')
+    },
+
+    goToReservationsPage : function() {
+      this.$router.push('/allreservations')
     },
 
     onFileSelected(event) {
