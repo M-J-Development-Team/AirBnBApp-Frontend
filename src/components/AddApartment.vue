@@ -275,6 +275,11 @@ export default {
 
         
       this.$http.get(`https://eu1.locationiq.com/v1/search.php?key=10295fe5fa497d&q=${fullstreet}&format=json`).then((response) =>{
+
+        //https://eu1.locationiq.com/v1/search.php?key=10295fe5fa497d&street=${this.address.street}&city=${this.address.city}&postalcode=${this.address.zipCode}&format=json
+
+        //pravi
+        //https://eu1.locationiq.com/v1/search.php?key=10295fe5fa497d&q=${fullstreet}&format=json
         
         if(response.ok){
 
@@ -297,8 +302,7 @@ export default {
         
         this.location.address = this.address;
         console.log(this.location);
-        
-        console.log(JSON.stringify( this.location));     
+           
 
         var objekat =  {
         

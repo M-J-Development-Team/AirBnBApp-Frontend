@@ -1,6 +1,7 @@
 <template>
+
     <div>
-        <b-button variant="outline-light" style="marginTop:9%;marginLeft:1%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
+             <b-button variant="outline-light" style="marginTop:9%;marginLeft:1%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
 
         <b-card class="card" v-if="isHost">
           <b-row inline v-if="isHost">
@@ -65,12 +66,7 @@
 
     </b-list-group>
         </b-card>
-
-
-
-
     </div>
-
 </template>
 
 <script>
@@ -130,21 +126,21 @@ export default {
                 }
                 this.apartmentsInactive = this.apartmentsInactive.filter(a => (a.name.indexOf(p) > -1));
        },
+  
 
-       filterAllApartments : function(p){
+    filterAllApartments : function(p){
+       console.log(p);
 
 
-               console.log(p);
+                if(p == ""){
+                    this.apartmentsAll = this.allApartments;
+                }
 
+                this.apartmentsAll = this.apartmentsAll.filter(apartment => (apartment.name.indexOf(p) > -1) );
+                console.log()
+       },
 
-               if(p == ""){
-                   this.apartmentsAll = this.allApartments;
-               }
-
-               this.apartmentsAll = this.apartmentsAll.filter(apartment => (apartment.name.indexOf(p) > -1) );
-               console.log()
-      },
-  },
+       },
 
 
   created(){
@@ -153,12 +149,12 @@ export default {
 
         this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
 
-
       if(response.status == 400){
           this.$swal('Error');
       }else{
 
       this.user = response.body;
+      console.log(this.user);
 
 
       if(this.user.role === "HOST"){
@@ -203,28 +199,12 @@ export default {
       } else{
           this.$router.push('/');
           location.reload();
-
-        deleteApartment(name) {
-        this.$http.delete(`http://localhost:8082/PocetniREST/rest/apartments/delete/${name}`,{headers:this.headers}).then((response) =>{
-
-          if(response.ok) {
-
-          alert('Apartment is deleted!')
-          window.location.reload();
-          } else if(response.status == 400) {
-            alert("error")
-          }
-
+        }
+      }
         })
       }
-  },
-
   }
-
-  }
-  }
-  }
-
+  
 };
 </script>
 
