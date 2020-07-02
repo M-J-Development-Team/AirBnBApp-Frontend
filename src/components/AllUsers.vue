@@ -5,7 +5,17 @@
         
         <b-card class="card">
             <h1>Users</h1>
-         <b-input id="input-lg" style="marginTop:10px" size="sm" placeholder="Enter username" type="search" @input="filterUsers" v-model="parameter"></b-input >
+         <b-input id="input-lg" style="marginTop:10px;width:320px;marginTop:3%" size="sm" placeholder="Search " type="search" @input="filterUsers" v-model="parameterUsername"></b-input >
+          
+        <b-row style="marginTop:5%;marginBottom:5%">
+          <b-avatar style="marginLeft:2%" variant="light" src="../assets/gender.png"></b-avatar>
+         
+          <b-form-select style="width:150px;marginLeft:1%" v-model="parameterGender" class="genderSelect" @change="onGenderChange" :options="optionsGender"></b-form-select>
+          <b-avatar style="marginLeft:10%" variant="light" src="../assets/group (1).png"></b-avatar>
+          <b-form-select style="width:150px;marginLeft:1%" v-model="parameterRole" class="genderSelect" @change="onRoleChange" :options="optionsRole"></b-form-select>
+        </b-row>
+
+        
 
         <b-list-group style="width:100%;marginTop:20px;" v-for="user in users" @input="filterUsers" v-bind:key="user.username">
 
@@ -34,8 +44,21 @@ export default {
         host: false,
         admin: false,
         guest: false,
-        parameter: "",
+        parameterRole: "ALL",
+        parameterGender:"ALL",
+        parameterUsername:"",
         allusers:[],
+         optionsGender: [
+        { value: "FEMALE", text: "Female" },
+        { value: "MALE", text: "Male" },
+        { value: "ALL", text: "All" }
+      ],
+       optionsRole: [
+        { value: "HOST", text: "Host" },
+        { value: "ADMIN", text: "Admin" },
+        { value: "GUEST", text: "Guest" },
+        { value: "ALL", text: "All" }
+      ],
         
         headers : {
           'Content-Type' : 'application/json'
@@ -44,23 +67,70 @@ export default {
   },
 
   methods : {   
+
+    onGenderChange: function(){
+        if(this.parameterGender == "ALL"){
+          if(this.parameterRole !== "ALL"){
+          this.users = this.allusers.filter(u => (u.role == this.parameterRole.toUpperCase()));
+          }else if(this.parameterRole == "ALL" || this.parameterRole == ""){
+            this.users =  this.allusers;
+          }
+        }else{
+          if(this.parameterRole !== "" && this.parameterRole !==  "ALL"){
+        this.users = this.allusers.filter(u => (u.gender == this.parameterGender.toUpperCase() && (u.role == this.parameterRole.toUpperCase())));
+          }else{
+            this.users = this.allusers.filter(u=> u.gender == this.parameterGender.toUpperCase());
+          }
+        }
+
+        console.log("Gender");
+        
+        console.log(this.users);
+
+    },
+
+     onRoleChange: function(){
+        if(this.parameterRole == "ALL"){
+          if(this.parameterGender !== "ALL"){
+          this.users = this.allusers.filter(u=> u.gender == this.parameterGender.toUpperCase());
+          }else if (this.parameterGender == 'ALL' || this.parameterGender == ""){
+            this.users = this.allusers;
+          }
+        }else{
+        if(this.parameterGender !==  "" && this.parameterGender != "ALL"){
+          this.users = this.allusers.filter(u => (u.role == this.parameterRole.toUpperCase() && (u.gender == this.parameterGender)));
+        }else{
+          this.users = this.allusers.filter(u=> u.role == this.parameterRole);
+        }
+        }
+
+        console.log("Role");
+        
+        console.log(this.users);
+        
+
+    },
       
-       filterUsers : function(p){
+       filterUsers : function(){
 
-                console.log(p);
-
-                if(p == ""){
-                    this.users = this.allusers;
-                }
-                
-                    
-                console.log(this.users.filter(user => user.username.includes(p)));
-                this.users = this.users.filter(user => (user.username.indexOf(p) > -1) );
-                
-                
-            
-             
-             
+        if(this.parameterUsername == ""){
+              if(this.parameterGender !== "" && this.parameterRole !== ""){
+             this.users = this.allusers.filter(u => (u.role == this.parameterRole.toUpperCase() && (u.gender == this.parameterGender.toUpperCase())));
+              }else if(this.parameterGender !=="" && this.parameterRole == ""){
+                this.users =  this.allusers.filter(u=> u.gender == this.parameterGender);
+              }else if(this.parameterGender =="" && this.parameterRole !==""){
+                    this.users =  this.allusers.filter(u=> u.role == this.parameterRole);
+              }else if(this.parameterGender="ALL" && this.parameterRole==""){
+                this.users = this.allusers;
+              }else if(this.parameterRole="ALL" && THIS.parameterGender ==""){
+                this.users = this.allusers;
+              }else if(this.optionsGender=="ALL" && this.optionsRole == "ALL"){
+                this.users = this.allusers;
+              }
+        }else{
+          this.users = this.users.filter(u => u.username.toUpperCase().includes(this.parameterUsername.toUpperCase()));
+        }
+              
        },
 
        backToHome : function(){
@@ -78,6 +148,9 @@ export default {
                 
             });
             });
+
+            console.log(this.users);
+            
         },
 
 };
