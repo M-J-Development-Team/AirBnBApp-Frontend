@@ -2,7 +2,8 @@
 
     <div>
         <b-card :title="user.username" style="text-transform:capitalize" class="card">
-            <b-img src="../assets/talk.png" class="photo"></b-img>
+            <b-img v-if="user.gender == 'MALE'" src="../assets/bosozoku (1).svg" class="photo"></b-img>
+            <b-img v-if="user.gender == 'FEMALE'" src="../assets/woman.svg" class="photo"></b-img>
             <b-form @submit.prevent="submitInfo" class="forma">
 
 
@@ -172,6 +173,7 @@ export default {
     width: 30%;
     height: auto;
     padding: 10px;
+    text-align: center;
 }
 
 .dugme{

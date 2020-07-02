@@ -4,8 +4,8 @@
 
     <div>
         <nav>
-        <router-link class="links" to="/"  v-b-tooltip.hover title="Home"><img src="../assets/kawaiihouse.png" class="icon"/></router-link>
-        <router-link class="links" to="/" v-b-tooltip.hover title="See apartments" v-if="(this.$session.exists() && guest) || (!this.$session.exists())"><b-avatar src="../assets/find (1).png" style="height:32px;width:32px" variant="light"></b-avatar></router-link>
+        <router-link class="links" to="/"  v-b-tooltip.hover title="Home"><img src="../assets/home-run (1).png" class="icon"/></router-link>
+        <router-link class="links" to="/" v-b-tooltip.hover title="See apartments" v-if="(this.$session.exists() && guest) || (!this.$session.exists())"><b-img src="../assets/search.png" style="height:25px;width:25px" variant="light"/></router-link>
 
 
         <router-link class="links" v-b-tooltip.hover title="Login" to="/login" v-if="!this.$session.exists()" >Login</router-link>
@@ -22,9 +22,7 @@
 
 <script>
 export default {
-
   
-   
   data() {
     return {
      role: "",
@@ -97,8 +95,8 @@ header{
 }
 
 .icon{
-    width: 32x;
-    height: 32px;
+    width: 28x;
+    height: 28px;
     margin-top: 3px;
     
 }

@@ -2,57 +2,76 @@
 
     <div>
 
-       <b-button variant="outline-light" style="marginTop:7%;marginLeft:5%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
+       <b-button variant="outline-light" style="marginTop:0%;marginLeft:0%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
 
+        <b-card  style="marginTop:5%;width:300px;padding:10px;textAlign:center" >
+          <div v-b-tooltip.hover title="New guests are waiting for what your apartment has to offer! Hurry up and add your apartment to our site.">
+          <b-img src="../assets/add.png" style="height:100px;width:100px;position:fixed" ></b-img>
+          <b-img src="../assets/beachhouse.png" style="height:100px;width:100px;marginLeft:50%" ></b-img>
+          </div>
+
+        </b-card>
     
         <b-card class="card">
-        <b-form @submit.prevent="submitInfo">
 
-        <b-form-group label="Apartment name">
+        <b-form @submit.prevent="submitInfo" inline>
+        
+        <b-row style="marginLeft:10px">
+        <b-form-group style="marginLeft:20px" >
+          <label style="marginTop:3px;marginBottom:3px" >Apartment name</label>
         <b-form-input id="input-2" placeholder="Name" v-model="apartment.name" style="width:300px"></b-form-input >
         </b-form-group>
 
         <b-form-group>
-            <b-form-file  style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
+            <b-form-file  style="width:350px;marginTop:31px;marginLeft:10px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
         </b-form-group>
 
-        <b-form-group id="input-group-1" label="Apartment type" label-for="input-1">
+       </b-row>
+
+        <b-form-group  style="marginLeft:30px" id="input-group-1" label-for="input-1">
+          <label style="marginTop:3px;marginBottom:3px">Apartment type</label>
             <b-form-select  v-model="apartment.type" :options="options" style="width:300px" ></b-form-select>
         </b-form-group>
 
-        <b-form-group id="input-group-2" v-model="apartment.numberOfRooms" label="Number of rooms" label-for="input-2" v-if="!isRoom">
-            <b-form-input id="input-2" style="width:300px" ></b-form-input>
+        <b-form-group id="input-group-2" style="marginLeft:10px" label-for="input-2" v-if="!isRoom">
+          <label style="marginTop:3px;marginBottom:3px" >Number of rooms</label>
+            <b-form-input v-model="apartment.numberOfRooms" id="input-2" style="width:300px" ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-1" label="Number of guests" label-for="input-1" style="width:150px">
+        <b-form-group id="input-group-1"  style="marginLeft:2%;width:150px" label-for="input-1">
+          <label style="marginBottom:3px">Number of guests</label>
             <b-form-select v-model="apartment.numberOfGuests" :options="optionsGuests" style="width:300px"></b-form-select>
         </b-form-group>
         
-        <b-row inline>
-            <b-form-group id="input-group-1" label="Check in time" label-for="input-1" style="width:150px;padding:10px;marginLeft:4px">
-            <b-form-timepicker v-model="apartment.checkInTime" locale="en" ></b-form-timepicker>  
+        <b-row inline style="marginLeft:14%;marginTop:2%">
+            <b-form-group id="input-group-1"  label="Check in time" label-for="input-1" style="width:150px;marginLeft:4px">
+            <b-form-timepicker v-model="apartment.checkInTime" locale="en"></b-form-timepicker>  
             </b-form-group>
 
 
-            <b-form-group id="input-group-1" label="Check out time" label-for="input-1" style="width:150px;padding:10px">
+            <b-form-group id="input-group-1" label="Check out time" label-for="input-1" style="width:150px;marginLeft:15px">
             <b-form-timepicker v-model="apartment.checkOutTime" locale="en"></b-form-timepicker>   
             </b-form-group> 
 
-            <b-list-group label="Amenities" style="width:100%;marginTop:20px;">
+            <b-list-group label="Amenities">
+            
 
             <multiselect
              v-model="value"
               :multiple="true"
               :close-on-select="true"
-              placeholder="Pick some"
+              placeholder="Check amenities"
               track-by="name"
               :clear-on-select="false"
               :preserve-search="true"       
               :options="optionsAmenities"
               label="name"
+              style="marginLeft:25%;marginTop:10%;width:200px"
+
               
               @input="seeValues">
           </multiselect> 
+          
           
 
           </b-list-group>
@@ -61,43 +80,56 @@
         
         
 
-        <b-form-group label="Enter price">
-             <b-form-input  v-model="apartment.price" id="input-2" style="width:300px" ></b-form-input>
+        <b-form-group label="Enter price" style="marginLeft:8.5%">
+
+            <b-img style="marginBottom:7px;marginRight:7px;height:30px;width:30px" variant="light" src="../assets/money.png"></b-img>
+             <b-form-input  v-model="apartment.price" id="input-2" type=number style="width:300px;marginBottom:10px" ></b-form-input>
+             
+        
         </b-form-group>
 
+        
         <b-row inline>
-        <b-form-group label="Enter address and number" >
-             <b-form-input  v-model="address.street" id="input-2" style="width:150px" ></b-form-input>
-             <b-form-input  placeholder="number" v-model="address.number" id="input-2" style="width:80px;marginTop:10px" ></b-form-input>
+        <b-form-group style="marginLeft:16%" >
+             <b-form-input placeholder="Street" v-model="address.street" id="input-2" style="width:150px" ></b-form-input>
+        </b-form-group>
+
+        <b-form-group>
+            
+             <b-form-input  placeholder="Number" v-model="address.number" id="input-2" style="width:80px;marginLeft:20px" ></b-form-input>
         </b-form-group>
         </b-row>
         
         <b-row inline>
-        <b-form-group label="Enter city and zip code">
-             <b-form-input placeholder="city" v-model="address.city" id="input-2" style="width:80px;marginTop:10px" ></b-form-input>
-             <b-form-input placeholder="zipcode" v-model="address.zipCode" id="input-2" style="width:80px;marginTop:10px" ></b-form-input>
+        <b-form-group style="marginLeft:15%">
+             <b-form-input placeholder="City" v-model="address.city" id="input-2" style="width:80px;;marginLeft:50px;marginTop:13%" ></b-form-input>
+             <b-form-input placeholder="Zipcode" v-model="address.zipCode" id="input-2" style="width:90px;marginLeft:20px;marginTop:13%" ></b-form-input>
         </b-form-group>
         </b-row>
+        
+        
 
-        <b-form-group>
+        <b-form-group style="marginLeft:18.5%;marginTop:20px">
             <label for="example-datepicker">Rent from:</label>
-            <b-form-datepicker v-model="apartment.from"  class="mb-2" style="width:300px"></b-form-datepicker>
+            <b-form-datepicker :min="minDate" v-model="apartment.from"  class="mb-2" style="width:300px"></b-form-datepicker>
         </b-form-group>
 
-        <b-form-group>
+        <b-form-group style="marginLeft:3%;marginTop:20px"> 
             <label for="example-datepicker">Rent to:</label>
-            <b-form-datepicker v-model="apartment.to" class="mb-2" style="width:300px"></b-form-datepicker>
+            <b-form-datepicker :min="minDate" v-model="apartment.to" class="mb-2" style="width:300px"></b-form-datepicker>
         </b-form-group>
-
-         <b-button id="submit-button" variant="outline-primary"  type="submit" size="sm">Create</b-button>  
+         <b-button style="marginLeft:80%;width:200px;marginTop:2%" id="submit-button" variant="outline-primary"  type="submit" size="sm">Create</b-button>  
 
 
         </b-form>
-        </b-card>
 
-        <b-card v-if="apartment.photoPath.length > 0"  class="photocard">
+         <b-card v-if="apartment.photoPath.length > 0"  class="photocard">
+           <h1>Apartment photo</h1>
                 <b-img :src="apartment.photoPath" class="apartmentPhoto"></b-img>
             </b-card>
+        </b-card>
+
+       
 
 
 
@@ -122,6 +154,8 @@ export default {
   data() {
     return {
       host:'',
+      minDate: new Date(),
+      minDateTo: new Date()+1,
       isHost:'',
       apartment:{price:'',from:'',to:'',type:'',numberOfRooms:'',numberOfGuests:'',datesForRenting:[],host:'',photoPath:'',checkInTime:'',checkOutTime:'',status:'',amenities:[],name:''},
       location:{gWidth:'',gHeight:'',address:''},
@@ -248,6 +282,9 @@ export default {
           
          this.location.gWidth =  response.body[0].lat;
          this.location.gHeight =  response.body[0].lon;
+
+         console.log(this.location);
+         
          
 
         }
@@ -263,42 +300,25 @@ export default {
         
         console.log(JSON.stringify( this.location));     
 
-        var adresa = {
-          street : this.address.street,
-          number : this.address.number,
-          city :  this.address.city,
-          zipCode :  this.address.zipCode
-        }
-
-        var lokacija = {
-
-          gWidth: this.location.gWidth,
-          gHeight: this.location.gHeight,
-          address : adresa
-
-        }
-        
-
-
         var objekat =  {
         
         type:this.apartment.type,
         numberOfRooms:this.apartment.numberOfRooms,
         numberOfGuests:this.apartment.numberOfGuests,
-        location: lokacija,
+        location: this.location,
         datesForRenting:datesForRenting,
         freeDates:[],
         host:this.host.username,
         comments:[],
         photoPath:this.apartment.photoPath,
-        idOne:'',
         price: this.apartment.price,
         checkInTime:this.apartment.checkInTime,
         checkOutTime:this.apartment.checkOutTime,
         status:'ACTIVE',
         amenities:this.value,
         reservations:[],
-        name:this.apartment.name}
+        name:this.apartment.name,
+        idOne: ''}
 
         console.log(objekat);
         
@@ -306,11 +326,11 @@ export default {
         
         
         this.$http.post('http://localhost:8082/PocetniREST/rest/apartmentsadd', objekat,{headers:this.headers}).then(() => {
-          alert('Uspesno!');
+          this.$swal('Added successfully!');
           this.$router.push('/');
         }, (response) => {
           if(response.status == 400){
-            alert('Neuspesno');
+            this.$swal("Error please try again.");
           }
         })
     
@@ -374,26 +394,26 @@ export default {
 
 .card{
 
-    margin-top: 7%;
-    margin-left: 20%;
-    width: 28%;
-    height: auto;
-    position: absolute;
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 90%;
+    height: 50%;
+ 
+    
 
 }
 
 .apartmentPhoto{
-    width: 300px;
-    height: 300px;
+    width: 600px;
+    height: 400px;
 }
 
 .photocard{
-    margin-top:7%;
-    margin-left:50%;
-    margin-bottom:10px;
-    position:absolute;
+    margin-top:2%;
+    margin-left:0%;
     width: auto;
     height: auto;
+    
 }
 
 </style>

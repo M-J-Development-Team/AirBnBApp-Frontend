@@ -11,140 +11,169 @@
       style="text-shadow: 1px 1px 2px #000;"
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
-      v-if="!this.$session.exists()"
-      
-    >
-      <!-- Text slides with image -->
+      v-if="!this.$session.exists()">
+
       <b-carousel-slide
         caption="Venice, Italy"
         text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/italy.jpg"
+        style="height:300px"
       ></b-carousel-slide>
 
         <b-carousel-slide
         caption="Stockholm, Sweden"
         text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/stockholm.jpg"
+        style="height:300px"
       ></b-carousel-slide>
 
         <b-carousel-slide
         caption="Maldives"
         text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/chairs.jpeg"
+        style="height:300px"
       ></b-carousel-slide>
-
 
     <b-carousel-slide
         caption="Barcelona, Spain"
         text="Welcome to TravelApp.We are here to make your travels easier!"
         img-src="../assets/guell.jpg"
+        style="height:300px"
       ></b-carousel-slide>
-
   </b-carousel>
 
-      
+  <b-card class="apartmentsCardLoggedOut" v-if="!this.$session.exists() ">
+      <div class="filters">
+
+        <b-dropdown text="Sort by" variant="light" style="marginLeft:-10px;marginBottom:15px">
+          <b-dropdown-item href="#">An item</b-dropdown-item>
+          <b-dropdown-item href="#">Another item</b-dropdown-item>
+         </b-dropdown>
+
+        <div class="filteringDiv">
+        <input class="firstInput" type="text" placeholder="Location"></input>
+        <input class="inputs"  type="text" placeholder="Check in"></input>
+        <input class="inputs"  type="text" placeholder="Check out"></input>
+        <input class="inputs"  type="dropdown" placeholder="Price"></input>
+        <input class="inputs"  type="dropdown" placeholder="Number of rooms"></input>
+        <input class="inputs" style="width:150px" type="text" placeholder="Guests"></input>
+        <b-button class="searchButton" variant="outline-dark"><b-img style="width:20px;height:20px;marginLeft:2px" src="../assets/search (1).svg"></b-img> Search</b-button>
+        </div>
+      </div>
+      <renderApartments isLoggedInGuest="false"/>
+    </b-card>
 
       <b-card class="card" v-if="this.$session.exists()">
         <div class="smallcard">
-      <b-avatar v-if="admin" src="../assets/tentt.png" variant="light" style="height:150px;width:150px"></b-avatar>
-      <b-avatar v-if="host" src="../assets/balloon.png" variant="light" style="height:150px;width:150px"></b-avatar>
-       <b-avatar variant="light" src="../assets/passport (1).png" v-if="guest" style="width:150px;height:150px"></b-avatar>
-        </div>
-      <b-button class="button" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
-      <b-button class="button" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments</b-button>
-      <b-button class="button" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
-      <b-button class="button" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
-
-      <b-button class="button" title="Apartments" variant="outline-success" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
-      <b-button class="button" title="My guests" variant="outline-success" v-if="host" >My guests</b-button>
-      <b-button class="button" title="Reservations" variant="outline-success" v-if="host" >Reservations </b-button>
-
-      <b-button class="button" title="My reservations" variant="outline-success" v-if="guest" >My reservations</b-button>
-
-
-      </b-card>
-
-
-      <b-card class="welcomecard" v-if="this.$session.exists()">
-        <h1 class="username">@{{this.username}}</h1>
-      
-      </b-card>
-
-      <b-card class="addingcard" v-if="this.$session.exists()">
-
-              <b-avatar id="hoAvatar" style="padding:10px;height:100px;width:100px" variant="light" src="../assets/home.png" v-if="admin"></b-avatar>
-              <br/>
-              <b-button id="hoButton" v-b-modal.modal-1 title="Host" variant="outline-primary" v-if="admin" >Add host</b-button>
-
-              <b-avatar id="amAvatar" style="padding:5px;height:80px;width:80px" variant="light" src="../assets/vacuum.png" v-if="admin"></b-avatar>
-              <br/>
-              <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>            
-
-              
-              <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/beachhouse.png" v-if="host"></b-avatar>
-              <br/>
-              <b-button class="button" title="Apartment" @click="addApartment" style="marginRight:7%" variant="outline-success" v-if="host" >Add apartment</b-button>      
-
-              
-              <b-avatar style="marginTop:-60px;height:100px;width:100px;" variant="light" src="../assets/travelling.png" v-if="guest"></b-avatar>
-              <br/>
-              <b-button class="button" title="See all apartments" style="marginRight:10%" variant="outline-success" v-if="guest" >Search for apartment</b-button>      
-              
-
-        <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">
-      
-        <form v-on:submit.prevent="addHost">
-        <b-form-input  name="name" v-model="hostObject.name" type="text" class="input" placeholder="Name"></b-form-input>
-        <b-form-input name="lastname"  v-model="hostObject.lastname" type="text" class="input" placeholder="Lastanme"></b-form-input>
-        <b-form-select name="gender" v-model="hostObject.gender" class="input" :options="options"></b-form-select>
+          <b-avatar v-if="gender == 'MALE'" src="../assets/bosozoku (1).svg" variant="light" style="height:150px;width:150px"></b-avatar>
+          <b-avatar v-if="gender == 'FEMALE'" src="../assets/woman.svg" variant="light" style="height:150px;width:150px"></b-avatar>
+         <h1 class="username">@{{this.username}}</h1>
         
-        <b-form-input  name="username" v-model="hostObject.username" type="text" class="input" placeholder="Username"></b-form-input>
-        <b-form-input name="password" type="password" v-model="hostObject.password" class="input" placeholder="Password"></b-form-input>
-        <b-form-input
-          
-          type="password"
-          class="input"
-          placeholder="Repeat password"
-          name="repeatedPassword"
-          v-model="hostObject.repeatedPassword"
-        ></b-form-input>
-        <br />
+            <br/>
+        <b-button class="button" title="My reservations" variant="light" v-if="guest" >My reservations 
+          <b-avatar variant="light" src="../assets/passport (1).png" v-if="guest" style="width:50px;height:50px"></b-avatar>
+        </b-button>
+        </div>
 
-        <b-button type="submit" class="btns" variant="outline-primary">Add host</b-button>
+     </b-card>
+
+    <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
+
+      <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
+      <br/><b-button class="adminbuttons" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments</b-button>
+      <br/><b-button class="adminbuttons" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
+      <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
+
+      <b-button class="hostbuttons" style="marginTop:-7%" title="Apartments" variant="outline-primary" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
+      <br/><b-button class="hostbuttons" title="My guests" variant="outline-primary" v-if="host" >My guests</b-button>
+      <br/><b-button class="hostbuttons" title="Reservations" variant="outline-primary" v-if="host" >Reservations </b-button>
+    </b-card>
+
+    <b-card class="addingcard" v-if="this.$session.exists() && (admin || host)">
+      <b-avatar id="hoAvatar" style="padding:10px;height:100px;width:100px" variant="light" src="../assets/home.png" v-if="admin"></b-avatar>
+      <br/>
+      <b-button id="hoButton" v-b-modal.modal-1 title="Host" variant="outline-primary" v-if="admin" >Add host</b-button>
+
+      <b-avatar id="amAvatar" style="padding:5px;height:80px;width:80px" variant="light" src="../assets/vacuum.png" v-if="admin"></b-avatar>
+      <br/>
+      <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>            
+            
+      <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/house.png" v-if="host"></b-avatar>
+      <br/>
+      <b-button class="button" title="Apartment" @click="addApartment" style="marginRight:7%" variant="outline-primary" v-if="host" >Add apartment</b-button>      
+                          
+    </b-card>
+
+    <b-card class="apartmentsCard" v-if="(this.$session.exists() && guest)">
+      <div class="guestFiltersDiv">
+        <b-dropdown text="Sort by" variant="light" style="marginLeft:10px">
+          <b-dropdown-item href="#">An item</b-dropdown-item>
+          <b-dropdown-item href="#">Another item</b-dropdown-item>
+         </b-dropdown>
+
+         <div class="filteringDiv">
+        <input class="inputsGuest" type="text" placeholder="Location"></input>
+        <input class="inputsGuest"  type="text" placeholder="Check in"></input>
+        <input class="inputsGuest"  type="text" placeholder="Check out"></input>
+        <input class="inputsGuest"  type="dropdown" placeholder="Price"></input>
+        <input class="inputsGuest"  type="dropdown" placeholder="Number of rooms"></input>
+        <input class="inputsGuest" style="width:150px" type="text" placeholder="Guests"></input>
+        <b-button class="searchButton" variant="outline-dark"><b-img style="width:20px;height:20px;marginLeft:2px" src="../assets/search (1).svg"></b-img> Search</b-button>
+        </div>
+      </div>
+      <renderApartments style="width:100%" isLoggedInGuest="true"/>
+    </b-card>
+
+    <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">    
+        <form v-on:submit.prevent="addHost">
+          <b-form-input  name="name" v-model="hostObject.name" type="text" class="input" placeholder="Name"></b-form-input>
+          <b-form-input name="lastname"  v-model="hostObject.lastname" type="text" class="input" placeholder="Lastanme"></b-form-input>
+          <b-form-select name="gender" v-model="hostObject.gender" class="input" :options="options"></b-form-select>       
+          <b-form-input  name="username" v-model="hostObject.username" type="text" class="input" placeholder="Username"></b-form-input>
+          <b-form-input name="password" type="password" v-model="hostObject.password" class="input" placeholder="Password"></b-form-input>
+          <b-form-input        
+            type="password"
+            class="input"
+            placeholder="Repeat password"
+            name="repeatedPassword"
+            v-model="hostObject.repeatedPassword"
+          ></b-form-input>
+          <br />
+          <b-button type="submit" class="btns" variant="outline-primary">Add host</b-button>
       </form>
-
-
     </b-modal>
 
-    <b-modal id="modal-2" title="Add amenity" hide-footer="true" v-if="this.$session.exists() && admin">
+     <b-modal id="modal-2" title="Add amenity" hide-footer="true" v-if="this.$session.exists() && admin">
         <form v-on:submit.prevent="addAmenity">
-        <b-form-input  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
-        <br />
-             <b-form-group>
-            <b-form-file  style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
-        </b-form-group>
-        <br/>
-        <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
+          <b-form-input  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
+          <br />
+              <b-form-group>
+              <b-form-file  style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
+          </b-form-group>
+          <br/>
+          <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
         </form>
     </b-modal>
-      </b-card>
-
-
   </div>
 </template>
 
 <script>
+import renderApartments from './renderApartments.vue'
 
 export default {
+   components: {
+     'renderApartments' : renderApartments
+  },
     name:'Home',
   data () {
       return {
       
-      role: "",
+        role: "",
         host: false,
         admin: false,
         guest: false,
         username:'',
+        gender:'',
         hostObject:{name:'',lastname:'',password:'',repeatedPassword:'',username:'',gender:''},
         selected: null,
         amenityObject: {name: '', image: ''},
@@ -193,6 +222,7 @@ export default {
     },
 
     addHost: function() {
+      alert(this.hostObject.gender);
 
       if(this.hostObject.username == "" || this.hostObject.name == "" || this.hostObject.lastname == "" || this.hostObject.password == "" || this.hostObject.gender == "" ){
         this.$$swal("Some fileds are empty.Please try again.");
@@ -206,7 +236,7 @@ export default {
 
       
       var object = {name:this.hostObject.name, lastname: this.hostObject.lastname, password: this.hostObject.password,
-      gender: this.host.gender,username:this.hostObject.username}
+      gender: this.hostObject.gender,username:this.hostObject.username}
 
       console.log(object);
       
@@ -262,6 +292,7 @@ export default {
       
       this.role = response.body.role;
       this.username = response.body.username;
+      console.log(response.body);
         
       if(this.role === "HOST"){
         this.host = true;
@@ -270,9 +301,7 @@ export default {
       } else if (response.body.role === "GUEST"){
         this.guest = true;
       }
-
-      
-        
+      this.gender=response.body.gender;  
       }
     })
                  
@@ -311,30 +340,44 @@ export default {
   width: 20%;
   height: 62%;
   margin-top:10%;
-  margin-left:15%;
-  position: absolute;
+  margin-left:7%;
+  position: fixed;
 }
 
 .button{
 
     margin-top:7%;
-    margin-left: 10%;
+    margin-left: 0%;
+    width: 200px;
+}
+
+.adminbuttons{
+
+    margin-top:3%;
+    margin-left: 0%;
+    width: 200px;
+}
+
+.hostbuttons{
+
+    margin-top:3%;
+    margin-left: 0%;
     width: 200px;
 }
 .addingcard{
 
-  margin-left:40%;
-  margin-top:24%;
+  margin-left:35%;
+  margin-top:32%;
   width: 35%;
   height: auto;
-  position: fixed;
+  position: absolute;
   text-align: center;
 
 
 }
 
 .username{
-  color:rgb(151, 204, 151);
+  color:rgb(161, 207, 245);
 }
 
 #amButton {
@@ -361,11 +404,11 @@ export default {
 
 #carousel-1{
 
-    width: 70%;
-    height: 60%;
+    width: 90%;
+    height: 30%;
     margin-top: 5%;
-    margin-left:14%;
-    position: fixed;
+    margin-left:3%;
+    position: absolute;
     max-height: 40%;
 }
 
@@ -379,14 +422,12 @@ export default {
 }
 
 .welcomecard{
-  margin-left:40%;
+  margin-left:35%;
   width: 35%;
   height: auto;
-  position: fixed;
-  text-align: right;
+  position: absolute;
+  text-align: center;
 }
-
-
 
 h1{
     text-align: right;
@@ -394,5 +435,71 @@ h1{
     color:rgb(94, 91, 91);
     font-family: Calibri;
 }
+
+.apartmentsCard{
+  margin-top: 10%;
+  position: absolute;
+  margin-left: 30%;
+  width: 60%;
+  height:auto;
+  
+}
+
+.apartmentsCardLoggedOut{
+  margin-top: 27%;
+  position: absolute;
+  margin-left: 3%;
+  width: inherit;
+  width: 90%;
+  height: auto;
+}
+
+.filters{
+  margin-left: 2%;
+}
+
+.filteringDiv{
+  width: auto;
+  margin-bottom: 2%;
+}
+
+.inputs{
+  border-radius: 5px;
+  border-width: 0.5px;
+  width: 200px;
+  height:50px;
+  margin-left: 5px;
+  margin-top:5px;
+}
+
+.firstInput{
+  border-radius: 5px;
+  border-width: 0.5px;
+  width: 200px;
+  height:50px;
+  margin-left: -1%;
+}
+
+.guestFiltersDiv{
+  margin-left: 1.5%;
+  width: 100%;
+}
+
+.searchButton{
+  margin-left: 1%;
+  height: 50px;
+  margin-top:-0.5%;
+}
+
+.inputsGuest{
+  border-radius: 5px;
+  border-width: 0.5px;
+  width: 150px;
+  height:50px;
+  margin-left: 7px;
+  margin-top:5px;
+}
+
+
 
 </style>
