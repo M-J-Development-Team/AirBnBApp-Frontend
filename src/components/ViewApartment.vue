@@ -33,10 +33,10 @@
             </b-form-group>
 
             <b-form-group id="input-group-2" label-for="input-2" v-if="apartment.type != 'ROOM'" style="marginTop:5px">
-            <label >Number of rooms</label>          
+            <label >Number of rooms</label>
                 <b-form-input :value="apartment.numberOfRooms" readonly="true" style="width:300px;marginLeft:-14px"></b-form-input>
             </b-form-group>
-            
+
 
             <b-form-group id="input-group-1" style="marginTop:5px;marginLeft:-14px" label-for="input-1">
             <label>Number of guests</label>
@@ -44,7 +44,7 @@
             </b-form-group>
         </div>
 
-        <div>       
+        <div>
             <b-form-group
                 id="input-group-1"
                 :value="apartment.checkInTime"
@@ -82,7 +82,7 @@
             </li>
           </ul>
         </b-card>
-        
+
 
           </div>
           <div>
@@ -112,14 +112,14 @@
               :placeholder="apartment.location.address.street"
               :value="apartment.location.address.street"
               readonly="true"
-              
+
             ></b-form-input>
             <br/>
             <b-form-input
               style="marginTop:5px;marginLeft:25px;width:280px"
               :placeholder="apartment.location.address.number"
               :value="apartment.location.address.number"
-              readonly="true"             
+              readonly="true"
             ></b-form-input>
           </b-form-group>
         </b-row>
@@ -132,7 +132,7 @@
               :placeholder="apartment.location.address.city"
               :value="apartment.location.address.city"
               readonly="true"
-              
+
             ></b-form-input>
             <br/>
             <b-form-input
@@ -144,11 +144,16 @@
           </b-form-group>
         </b-row>
         </div>
+
+          <b-button
+            class="reserveButton"
+            v-on:click="checkToReserve(apartment.name)"
+          >Check for free dates</b-button>
     </b-card>
 
     <b-card class="commentsCard">
       <b-card-title style="textAlign:center"><b-avatar src="../assets/message.svg" variant="light" style="height:30px;widht:30px"/>Comments and reviews</b-card-title>
-      <renderComments :apartmentName="this.apartment.name"/> 
+      <renderComments :apartmentName="this.apartment.name"/>
     </b-card>
 
   </div>
@@ -182,7 +187,10 @@ export default {
 
        backToHome : function(){
             this.$router.push('/');
-       }
+       },
+       checkToReserve(id) {
+      this.$router.push(`/reservethis/${id}`);
+    }
 
   }
 
@@ -194,5 +202,9 @@ export default {
   width:30%;
   margin-left:5%;
   margin-top:1.5%;
+
+.reserveButton {
+  margin-left: 60%;
+  margin-top: -180%;
 }
 </style>

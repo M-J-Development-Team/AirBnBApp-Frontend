@@ -1,4 +1,4 @@
- 
+
 <template>
   <div>
   <b-carousel
@@ -78,15 +78,18 @@
      </b-card>
     <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
 
+
       <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users<b-avatar src="../assets/user (1).svg" variant="light" style="height:30px;widht:30px"/> </b-button>
       <br/><b-button class="adminbuttons" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments<b-avatar src="../assets/tent.png" variant="light" style="height:30px;widht:30px"/></b-button>
       <br/><b-button class="adminbuttons" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities <b-avatar src="../assets/iron2.png" variant="light" style="height:30px;widht:30px"/></b-button>
-      <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-if="admin" >All reservations <b-avatar src="../assets/passport (1).png" variant="light" style="height:30px;widht:30px"/></b-button>
+      <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-on:click.prevent="goToReservationsPage"  v-if="admin" >All reservations <b-avatar src="../assets/passport (1).png" variant="light" style="height:30px;widht:30px"/></b-button>
 
       <b-button class="hostbuttons" style="marginTop:-7%" title="Apartments" variant="outline-primary" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
       <br/><b-button class="hostbuttons" title="My guests" @click="seeMyGuests"  variant="outline-primary" v-if="host" >My guests</b-button>
       <br/><b-button class="hostbuttons" title="Reservations" variant="outline-primary" v-if="host" >Reservations </b-button>
       <br/><b-button class="hostbuttons" title="Comments" @click="seeCommentsToApprove" variant="outline-primary" v-if="host" >You have {{this.numberOfUnapprovedComments}} new comments to approve</b-button>
+      <br/><b-button class="hostbuttons" title="Reservations" variant="outline-primary" v-on:click.prevent="goToReservationsPage" v-if="host" >Reservations </b-button>
+
     </b-card>
 
     <b-card class="addingcard" v-if="this.$session.exists() && (admin || host)">
