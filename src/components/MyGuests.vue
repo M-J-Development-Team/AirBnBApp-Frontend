@@ -134,9 +134,9 @@ export default {
                 this.guests =  this.allGuests.filter(u=> u.gender == this.parameterGender);
               }else if(this.parameterGender =="" && this.parameterRole !==""){
                     this.guests =  this.allGuests.filter(u=> u.role == this.parameterRole);
-              }else if(this.parameterGender="ALL" && this.parameterRole==""){
+              }else if(this.parameterGender=="ALL" && this.parameterRole==""){
                 this.guests = this.allGuests;
-              }else if(this.parameterRole="ALL" && THIS.parameterGender ==""){
+              }else if(this.parameterRole=="ALL" && this.parameterGender ==""){
                 this.guest = this.allGuests;
               }else if(this.optionsGender=="ALL" && this.optionsRole == "ALL"){
                 this.guests = this.allGuests;
