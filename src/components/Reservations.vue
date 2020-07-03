@@ -1,5 +1,5 @@
 <template>
-  <div class="divv" >
+  <div class="divv">
     <b-button
       variant="outline-light"
       style="marginTop:5%;marginLeft:3%;position:absolute"
@@ -7,7 +7,7 @@
     >
       <img style="width:30px;height:30px;" src="../assets/back.png" />
     </b-button>
-    <b-container>
+    <b-container v-if="isGuest">
       <b-card-group>
         <b-card
           v-for="reservation in this.reservations"
@@ -18,12 +18,107 @@
           class="text-center"
           style="max-width: 23rem; color:rgb(127, 129, 198)"
         >
-          <b-card-text>This is reserved from  <b-form-datepicker :value="reservation.reservedFrom" id="ex-disabled-readonly" :readonly="readonly"></b-form-datepicker> till <b-form-datepicker :value="reservation.reservedTill" id="ex-disabled-readonly" :readonly="readonly"></b-form-datepicker>. Number of nights is <b>{{reservation.numberOfNights}}</b> and the price is <b>{{reservation.price}}</b> </b-card-text>
+          <b-card-text>
+            This is reserved from
+            <b-form-datepicker
+              :value="reservation.reservedFrom"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>till
+            <b-form-datepicker
+              :value="reservation.reservedTill"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>. Number of nights is
+            <b>{{reservation.numberOfNights}}</b> and the price is
+            <b>{{reservation.price}}</b>
+          </b-card-text>
           <b-badge class="appStatus">{{reservation.reservationStatus}}</b-badge>
-          <b-button class="cancelBtn"
+          <b-button
+            class="cancelBtn"
+            v-if="reservation.reservationStatus == 'CREATED'"
             @click="cancel(reservation.idOne)"
-          >Cancel Reservation
-          </b-button>
+          >Cancel Reservation</b-button>
+        </b-card>
+      </b-card-group>
+    </b-container>
+    <b-container v-if="isHost">
+      <b-card-group>
+        <b-card
+          v-for="reservation in this.reservations"
+          v-bind:key="reservation.idOne"
+          img-src="https://picsum.photos/600/300/?image=25"
+          bg-variant="light"
+          :header="reservation.apartment"
+          class="text-center"
+          style="max-width: 23rem; color:rgb(127, 129, 198)"
+        >
+          <b-card-text>
+            Guest is {{reservation.guest}}. This is reserved from
+            <b-form-datepicker
+              :value="reservation.reservedFrom"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>till
+            <b-form-datepicker
+              :value="reservation.reservedTill"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>. Number of nights is
+            <b>{{reservation.numberOfNights}}</b> and the price is
+            <b>{{reservation.price}}</b>
+          </b-card-text>
+          <b-badge class="appStatus">{{reservation.reservationStatus}}</b-badge>
+          <b-button
+            class="cancelBtn"
+            v-if="reservation.reservationStatus == 'CREATED'"
+            @click="cancel(reservation.idOne)"
+          >Deny Reservation</b-button>
+          <b-button
+            class="approveBtn"
+            v-if="reservation.reservationStatus == 'CREATED'"
+            @click="approve(reservation.idOne)"
+          >Accept Reservation</b-button>
+        </b-card>
+      </b-card-group>
+    </b-container>
+    <b-container v-if="isAdmin">
+      <b-card-group>
+        <b-card
+          v-for="reservation in this.reservations"
+          v-bind:key="reservation.idOne"
+          img-src="https://picsum.photos/600/300/?image=25"
+          bg-variant="light"
+          :header="reservation.apartment"
+          class="text-center"
+          style="max-width: 23rem; color:rgb(127, 129, 198)"
+        >
+          <b-card-text>
+            Guest is {{reservation.guest}}. This is reserved from
+            <b-form-datepicker
+              :value="reservation.reservedFrom"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>till
+            <b-form-datepicker
+              :value="reservation.reservedTill"
+              id="ex-disabled-readonly"
+              :readonly="readonly"
+            ></b-form-datepicker>. Number of nights is
+            <b>{{reservation.numberOfNights}}</b> and the price is
+            <b>{{reservation.price}}</b>
+          </b-card-text>
+          <b-badge class="appStatus">{{reservation.reservationStatus}}</b-badge>
+          <b-button
+            class="cancelBtn"
+            v-if="reservation.reservationStatus == 'CREATED'"
+            @click="cancel(reservation.idOne)"
+          >Deny Reservation</b-button>
+          <b-button
+            class="approveBtn"
+            v-if="reservation.reservationStatus == 'CREATED'"
+            @click="approve(reservation.idOne)"
+          >Accept Reservation</b-button>
         </b-card>
       </b-card-group>
     </b-container>
@@ -36,13 +131,13 @@ export default {
   data() {
     return {
       reservations: [],
-      host: false,
-      admin: false,
-      guest: false,
+      isHost: false,
+      isAdmin: false,
+      isGuest: false,
       parameter: "",
       user: "",
       allReservations: [],
-      state: 'readonly',
+      state: "readonly",
 
       headers: {
         "Content-Type": "application/json"
@@ -56,8 +151,8 @@ export default {
     },
 
     readonly() {
-        return this.state === 'readonly'
-      },
+      return this.state === "readonly";
+    },
 
     cancel(id) {
       this.$http
@@ -73,6 +168,23 @@ export default {
             this.$router.push("/");
           } else {
             alert("Neuspesno otkazivanje");
+          }
+        });
+    },
+    approve(id) {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservations/approve/${id}`,
+          {
+            headers: this.headers
+          }
+        )
+        .then(response => {
+          if (response.status == 200) {
+            alert("Uspesno potvrdjeno");
+            this.$router.push("/");
+          } else {
+            alert("Neuspesno potvrdjeno");
           }
         });
     }
@@ -110,33 +222,46 @@ export default {
             if (this.user.role === "HOST") {
               this.isHost = true;
 
-              /*this.$http
+              this.$http
                 .get(
-                  `http://localhost:8082/PocetniREST/rest/apartments/all/${this.$session.get(
-                    "idOne"
-                  )}`,
-                  { headers: this.headers }
+                  `http://localhost:8082/PocetniREST/rest/reservations/all-hosts-reservations/${this.user.username}`,
+                  {
+                    headers: this.headers
+                  }
                 )
                 .then(response => {
-                  this.reservations = response.reservations;
-                });*/
+                  response.body.forEach(element => {
+                    this.reservations.push(element);
+                  });
+
+                  console.log(this.reservations);
+                });
             } else if (this.user.role === "ADMIN") {
               this.isAdmin = true;
 
-              /*this.$http
-                .get(`http://localhost:8082/PocetniREST/rest/apartments/all`, {
-                  headers: this.headers
-                })
+              this.$http
+                .get(
+                  "http://localhost:8082/PocetniREST/rest/reservations/all",
+                  {
+                    headers: this.headers
+                  }
+                )
                 .then(response => {
-                  this.reservations = response.body;
+                  response.body.forEach(element => {
+                    this.reservations.push(element);
+                  });
+
                   console.log(this.reservations);
-                });*/
+                });
             } else if (this.user.role === "GUEST") {
               this.isGuest = true;
               this.$http
-                .get(`http://localhost:8082/PocetniREST/rest/reservations/all/${this.user.username}`, {
-                  headers: this.headers
-                })
+                .get(
+                  `http://localhost:8082/PocetniREST/rest/reservations/all/${this.user.username}`,
+                  {
+                    headers: this.headers
+                  }
+                )
                 .then(response => {
                   this.reservations = response.body;
                   console.log(this.reservations);
@@ -162,7 +287,15 @@ export default {
 }
 
 .cancelBtn {
-    background-color: rgb(245, 118, 139);
-    border-color:rgb(245, 118, 139) ;
+  background-color: rgb(245, 118, 139);
+  border-color: rgb(245, 118, 139);
+  margin-right: 220px;
+}
+
+.approveBtn {
+  background-color: rgb(36, 194, 141);
+  border-color: rgb(36, 194, 141);
+  margin-left: 195px;
+  margin-top: -85px;
 }
 </style>
