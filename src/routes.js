@@ -13,6 +13,8 @@ import Reservations from './components/Reservations.vue'
 import EditApartment from './components/EditApartment.vue';
 import ViewApartment from './components/ViewApartment.vue';
 import MyGuests from './components/MyGuests.vue';
+import ApproveComments from './components/ApproveComments.vue';
+
 
 export default[
     { path:'/', components: {default: Home, header: Navbar}},
@@ -28,5 +30,6 @@ export default[
     { path: '/edit/:id', component: EditApartment},
     { path: '/view/:id', component: ViewApartment},
     { path: '/myguests', component: MyGuests},
+    { path: '/approvecomments', component: ApproveComments},
     
 ]

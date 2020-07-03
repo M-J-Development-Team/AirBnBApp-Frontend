@@ -1,7 +1,9 @@
 <template>
   <div>
-    <b-card
-      style="marginTop:10%;width:50%;marginLeft:5%;height:40%"
+    <b-card style="marginTop:10%;width:80%;marginLeft:5%;height:auto">
+
+      <b-card
+      style="marginTop:2%;width:50%;marginLeft:5%;height:40%"
       v-if="apartment.photoPath.length > 0"
       class="photocard"
     >
@@ -9,7 +11,6 @@
       <b-img :src="apartment.photoPath" style="width:50%;height:40%"></b-img>
     </b-card>
 
-    <b-card style="marginTop:2%;width:80%;marginLeft:5%;height:auto">
       <b-form @submit.prevent="edit" inline>
 
         <div style="padding:15px">

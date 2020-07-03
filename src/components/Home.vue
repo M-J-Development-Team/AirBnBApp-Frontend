@@ -78,14 +78,15 @@
      </b-card>
     <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
 
-      <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
-      <br/><b-button class="adminbuttons" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments</b-button>
-      <br/><b-button class="adminbuttons" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities</b-button>
-      <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
+      <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users<b-avatar src="../assets/user (1).svg" variant="light" style="height:30px;widht:30px"/> </b-button>
+      <br/><b-button class="adminbuttons" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments<b-avatar src="../assets/tent.png" variant="light" style="height:30px;widht:30px"/></b-button>
+      <br/><b-button class="adminbuttons" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities <b-avatar src="../assets/iron2.png" variant="light" style="height:30px;widht:30px"/></b-button>
+      <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-if="admin" >All reservations <b-avatar src="../assets/passport (1).png" variant="light" style="height:30px;widht:30px"/></b-button>
 
       <b-button class="hostbuttons" style="marginTop:-7%" title="Apartments" variant="outline-primary" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
       <br/><b-button class="hostbuttons" title="My guests" @click="seeMyGuests"  variant="outline-primary" v-if="host" >My guests</b-button>
       <br/><b-button class="hostbuttons" title="Reservations" variant="outline-primary" v-if="host" >Reservations </b-button>
+      <br/><b-button class="hostbuttons" title="Comments" @click="seeCommentsToApprove" variant="outline-primary" v-if="host" >You have {{this.numberOfUnapprovedComments}} new comments to approve</b-button>
     </b-card>
 
     <b-card class="addingcard" v-if="this.$session.exists() && (admin || host)">
@@ -173,6 +174,8 @@ export default {
         guest: false,
         username:'',
         gender:'',
+        numberOfUnapprovedComments:'',
+        unapprovedComments:[],
         hostObject:{name:'',lastname:'',password:'',repeatedPassword:'',username:'',gender:''},
         selected: null,
         amenityObject: {name: '', image: ''},
@@ -203,6 +206,10 @@ export default {
 
     goToReservationsPage : function() {
       this.$router.push('/allreservations')
+    },
+
+    seeCommentsToApprove : function() {
+      this.$router.push('/approvecomments')
     },
 
     onFileSelected(event) {
@@ -279,8 +286,6 @@ export default {
       this.$http.post("http://localhost:8082/PocetniREST/rest/addamenity", object, {headers: this.headers}).then(() => {
           this.$swal("Amenity is added");
           location.reload();
-
-
           },
           response => {
             if (response.status == 400) {
@@ -307,6 +312,11 @@ export default {
 
       if(this.role === "HOST"){
         this.host = true;
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.name}`,{headers:this.headers}).then(resp =>{
+          this.numberOfUnapprovedComments = resp.body.reduce((acc) => acc + Object.length, 0);
+          this.unapprovedComments = resp.body;
+          console.log(this.unapprovedComments);
+          })
       } else if (response.body.role === "ADMIN"){
         this.admin = true;
       } else if (response.body.role === "GUEST"){

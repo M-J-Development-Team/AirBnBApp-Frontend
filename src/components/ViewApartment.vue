@@ -1,16 +1,18 @@
 <template>
   <div>
      <b-button variant="outline-light" style="marginTop:-5%;marginLeft:5%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
-    <b-card
-      style="marginTop:10%;width:80%;marginLeft:5%;height:40%;textAlign:center"
-      v-if="apartment.photoPath.length > 0"
-      class="photocard"
-    >
-      <h1 stle=" textTransform:capitalize">{{apartment.name}}</h1>
-      <b-img :src="apartment.photoPath" style="width:50%;height:40%"></b-img>
-    </b-card>
 
-    <b-card style="marginTop:2%;width:80%;marginLeft:5%;height:auto">
+    <b-card style="marginTop:10%;width:80%;marginLeft:5%;height:auto">
+
+          <b-card
+            style="marginTop:1%;width:80%;marginLeft:5%;height:40%;textAlign:center;marginBottom:1%"
+            v-if="apartment.photoPath.length > 0"
+            class="photocard"
+            >
+            <h1 stle=" textTransform:capitalize">{{apartment.name}}</h1>
+            <b-img :src="apartment.photoPath" style="width:50%;height:40%"></b-img>
+          </b-card>
+
 
         <div style="padding:15px">
             <b-row >
@@ -143,12 +145,22 @@
         </b-row>
         </div>
     </b-card>
+
+    <b-card class="commentsCard">
+      <b-card-title style="textAlign:center"><b-avatar src="../assets/message.svg" variant="light" style="height:30px;widht:30px"/>Comments and reviews</b-card-title>
+      <renderComments :apartmentName="this.apartment.name"/> 
+    </b-card>
+
   </div>
 </template>
 
 <script>
+import renderComments from './renderComments.vue'
 export default {
   name: "ViewApartment",
+    components: {
+     'renderComments' : renderComments
+  },
   data() {
     return {
       apartment: {},
@@ -176,3 +188,11 @@ export default {
 
 };
 </script>
+
+<style scoped>
+.commentsCard{
+  width:30%;
+  margin-left:5%;
+  margin-top:1.5%;
+}
+</style>

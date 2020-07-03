@@ -19,6 +19,7 @@
 
                  <b-button variant="outline-success" @click="edit(apartment.idOne)" >Edit</b-button>
                  <b-button style="marginLeft:7px" variant="outline-danger" @click="deleteApartment(apartment.idOne)">Delete</b-button>
+                 <b-button  style="marginLeft:7px" variant="outline-primary" @click="viewApartment(apartment.idOne)">View</b-button>
 
             </b-list-group-item>
         </b-list-group>
@@ -40,6 +41,8 @@
                   <div v-if="apartment.status == 'ACTIVE'" >
                     <b-button variant="outline-primary" @click="edit(apartment.idOne)">Edit</b-button>
                     <b-button  style="marginLeft:7px" variant="outline-primary" @click="deleteApartment(apartment.idOne)">Delete</b-button>
+                   <b-button  style="marginLeft:7px" variant="outline-primary" @click="viewApartment(apartment.idOne)">View</b-button>
+
                 </div>
             </b-list-group-item>
         </b-list-group>
@@ -104,6 +107,11 @@ export default {
         location.reload();
         console.log(response.body);
         })
+    },
+
+     viewApartment: function(id){
+
+      this.$router.push(`/view/${id}`);
     },
 
     edit: function(id){
