@@ -51,12 +51,12 @@
          </b-dropdown>
 
         <div class="filteringDiv">
-        <input class="firstInput" type="text" placeholder="Location"></input>
-        <input class="inputs"  type="text" placeholder="Check in"></input>
-        <input class="inputs"  type="text" placeholder="Check out"></input>
-        <input class="inputs"  type="dropdown" placeholder="Price"></input>
-        <input class="inputs"  type="dropdown" placeholder="Number of rooms"></input>
-        <input class="inputs" style="width:150px" type="text" placeholder="Guests"></input>
+        <input class="firstInput" type="text" placeholder="Location"/>
+        <input class="inputs"  type="text" placeholder="Check in"/>
+        <input class="inputs"  type="text" placeholder="Check out"/>
+        <input class="inputs"  type="dropdown" placeholder="Price"/>
+        <input class="inputs"  type="dropdown" placeholder="Number of rooms"/>
+        <input class="inputs" style="width:150px" type="text" placeholder="Guests"/>
         <b-button class="searchButton" variant="outline-dark"><b-img style="width:20px;height:20px;marginLeft:2px" src="../assets/search (1).svg"></b-img> Search</b-button>
         </div>
       </div>
@@ -85,7 +85,7 @@
       <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-if="admin" >All reservations</b-button>
 
       <b-button class="hostbuttons" style="marginTop:-7%" title="Apartments" variant="outline-primary" v-if="host"  v-on:click.prevent="goToApartmentsPage"> My apartments</b-button>
-      <br/><b-button class="hostbuttons" title="My guests" variant="outline-primary" v-if="host" >My guests</b-button>
+      <br/><b-button class="hostbuttons" title="My guests" @click="seeMyGuests"  variant="outline-primary" v-if="host" >My guests</b-button>
       <br/><b-button class="hostbuttons" title="Reservations" variant="outline-primary" v-if="host" >Reservations </b-button>
     </b-card>
 
@@ -112,13 +112,13 @@
          </b-dropdown>
 
          <div class="filteringDiv">
-        <input class="inputsGuest" type="text" placeholder="Location"></input>
-        <input class="inputsGuest"  type="text" placeholder="Check in"></input>
-        <input class="inputsGuest"  type="text" placeholder="Check out"></input>
-        <input class="inputsGuest"  type="dropdown" placeholder="Price"></input>
-        <input class="inputsGuest"  type="dropdown" placeholder="Number of rooms"></input>
-        <input class="inputsGuest" style="width:150px" type="text" placeholder="Guests"></input>
-        <b-button class="searchButton" variant="outline-dark"><b-img style="width:20px;height:20px;marginLeft:2px" src="../assets/search (1).svg"></b-img> Search</b-button>
+        <input class="inputsGuest" type="text" placeholder="Location"/>
+        <input class="inputsGuest"  type="text" placeholder="Check in"/>
+        <input class="inputsGuest"  type="text" placeholder="Check out"/>
+        <input class="inputsGuest"  type="dropdown" placeholder="Price"/>
+        <input class="inputsGuest"  type="dropdown" placeholder="Number of rooms"/>
+        <input class="inputsGuest" style="width:150px" type="text" placeholder="Guests"/>
+        <b-button class="searchButtonGuest" variant="outline-dark"><b-img style="width:20px;height:20px;marginLeft:2px" src="../assets/search (1).svg"></b-img> Search</b-button>
         </div>
       </div>
       <renderApartments style="width:100%" isLoggedInGuest="true"/>
@@ -221,6 +221,10 @@ export default {
       this.$router.push('/apartments')
     },
 
+    seeMyGuests : function() {
+      this.$router.push('/myguests')
+    },
+
     addHost: function() {
       alert(this.hostObject.gender);
 
@@ -307,7 +311,8 @@ export default {
                  
   }
 
-  } 
+  },
+
 };
 
 </script>
@@ -440,8 +445,10 @@ h1{
   margin-top: 10%;
   position: absolute;
   margin-left: 30%;
-  width: 60%;
+  width: 35%;
   height:auto;
+
+
   
 }
 
@@ -485,10 +492,17 @@ h1{
   width: 100%;
 }
 
-.searchButton{
-  margin-left: 1%;
+.searchButtonGuest{
+  margin-left: 3%;
   height: 50px;
-  margin-top:-0.5%;
+  margin-top:-1%;
+}
+
+.searchButton{
+  margin-left: 0.7%;
+  height: 50px;
+  margin-top:0%;
+
 }
 
 .inputsGuest{
@@ -497,7 +511,7 @@ h1{
   width: 150px;
   height:50px;
   margin-left: 7px;
-  margin-top:5px;
+  margin-top:7px;
 }
 
 

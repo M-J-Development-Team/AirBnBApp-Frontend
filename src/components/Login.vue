@@ -57,22 +57,17 @@ export default {
     submitInfo : function(){
         
         if(this.user.username == "" || this.user.password == ""){
-
             this.$swal("You didn't enter username or password. Please try again");
-
             return;
-
         }
 
 
       this.$http.post('http://localhost:8082/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
         if(response.ok){
          
-
           this.$session.start(); 
           this.$session.set('idOne', response.bodyText);
           this.$http.headers.common['Authorization'] = 'Bearer ' + response.bodyText;
-
           this.$router.push('/');
           location.reload();
           this.$emit('loggedIn');

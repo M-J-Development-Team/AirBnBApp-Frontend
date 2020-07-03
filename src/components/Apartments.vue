@@ -37,10 +37,10 @@
                 <span class="mr-auto">{{apartment.name}}
                   <b-badge>{{apartment.status}}</b-badge>
                 </span>
-
-                 <b-button variant="outline-primary" @click="edit(apartment.idOne)">Edit</b-button>
-                 <b-button style="marginLeft:7px" variant="outline-primary" @click="deleteApartment(apartment.idOne)">Delete</b-button>
-
+                  <div v-if="apartment.status == 'ACTIVE'" >
+                    <b-button variant="outline-primary" @click="edit(apartment.idOne)">Edit</b-button>
+                    <b-button  style="marginLeft:7px" variant="outline-primary" @click="deleteApartment(apartment.idOne)">Delete</b-button>
+                </div>
             </b-list-group-item>
         </b-list-group>
         </div>
@@ -103,8 +103,6 @@ export default {
       this.$http.delete(`http://localhost:8082/PocetniREST/rest/apartments/delete/${id}`,{headers:this.headers}).then(response =>{
         location.reload();
         console.log(response.body);
-
-
         })
     },
 
@@ -161,7 +159,7 @@ export default {
 
         this.isHost = true;
 
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/all/${this.$session.get('idOne')}`,{headers:this.headers}).then(response =>{
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/allactive/${this.$session.get('idOne')}`,{headers:this.headers}).then(response =>{
 
         this.apartmentsActive = response.body;
         this.allActive =  response.body;

@@ -114,7 +114,7 @@ export default {
        filterUsers : function(){
 
         if(this.parameterUsername == ""){
-              if(this.parameterGender !== "" && this.parameterRole !== ""){
+              if((this.parameterGender !== "" && this.parameterGender !== 'ALL') && this.parameterRole !== ""){
              this.users = this.allusers.filter(u => (u.role == this.parameterRole.toUpperCase() && (u.gender == this.parameterGender.toUpperCase())));
               }else if(this.parameterGender !=="" && this.parameterRole == ""){
                 this.users =  this.allusers.filter(u=> u.gender == this.parameterGender);

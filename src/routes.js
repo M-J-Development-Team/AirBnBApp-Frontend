@@ -10,8 +10,7 @@ import AddApartment from './components/AddApartment.vue';
 import Apartments from './components/Apartments.vue';
 import EditApartment from './components/EditApartment.vue';
 import ViewApartment from './components/ViewApartment.vue';
-
-
+import MyGuests from './components/MyGuests.vue';
 
 export default[
     { path:'/', components: {default: Home, header: Navbar}},
@@ -24,5 +23,6 @@ export default[
     { path: '/apartments', component: Apartments},
     { path: '/edit/:id', component: EditApartment},
     { path: '/view/:id', component: ViewApartment},
+    { path: '/myguests', component: MyGuests},
     
 ]

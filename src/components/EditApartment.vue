@@ -10,7 +10,7 @@
     </b-card>
 
     <b-card style="marginTop:2%;width:80%;marginLeft:5%;height:auto">
-      <b-form @submit.prevent="submitInfo" inline>
+      <b-form @submit.prevent="edit" inline>
 
         <div style="padding:15px">
           <b-row >
@@ -211,7 +211,6 @@
         </b-form-group>
         </div>
 
-        
         <b-button
           style="marginLeft:80%;width:200px;marginTop:2%"
           id="submit-button"
@@ -317,6 +316,20 @@ export default {
           console.log(element);
         });
       });
+
+      if(this.$session.exists()){
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+      
+      if(response.status == 400){
+          this.$swal('Error');
+      }else{
+        if (response.body.role === "GUEST"){
+          this.$router.push('/');
+      }     
+      }
+    })
+                 
+  }
   },
   methods: {
     addNewDate: function() {
@@ -337,6 +350,18 @@ export default {
             if (response.status == 400) {
               this.$swal("error");
             }
+          }
+        );
+    }, 
+     edit: function() {
+       console.log(this.apartment);
+      this.$http.post(`http://localhost:8082/PocetniREST/rest/editapartment`,this.apartment,{ headers: this.headers}).then(() => {
+            location.reload();
+          },
+          response => {
+            if (response.status == 400) {
+              this.$swal("error");
+              }
           }
         );
     }

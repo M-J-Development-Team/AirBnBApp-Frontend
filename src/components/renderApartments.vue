@@ -2,8 +2,8 @@
   <div>
     <div class="apartmentContainer" v-if="isLoggedInGuest">  
         <b-card @click="view(apartment.idOne)" v-for="apartment in this.apartments"  v-bind:key="apartment.idOne" class="oneApartmentGuest">
-            <b-card-header>
-            <b-img class="mr-3"  variant="light" style="height:80ox;width:80px" :src="apartment.photoPath"></b-img>
+            <b-card-header style="backgroundColor:transparent">
+            <b-img class="mr-3"  variant="light" style="height:150ox;width:150px" :src="apartment.photoPath"></b-img>
             </b-card-header>
             <b-card-body style="textAlign:center">
              <a class="button">{{apartment.name}}</a> 
@@ -80,9 +80,13 @@ export default {
 }
 
 .apartmentContainer{
-    display: flex;;
-    width: 100%;
+    display: table;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 80%;
 }
+
+
 
 .button{
     text-align: center;
