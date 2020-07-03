@@ -120,9 +120,9 @@ export default {
                 this.users =  this.allusers.filter(u=> u.gender == this.parameterGender);
               }else if(this.parameterGender =="" && this.parameterRole !==""){
                     this.users =  this.allusers.filter(u=> u.role == this.parameterRole);
-              }else if(this.parameterGender="ALL" && this.parameterRole==""){
+              }else if(this.parameterGender=="ALL" && this.parameterRole==""){
                 this.users = this.allusers;
-              }else if(this.parameterRole="ALL" && THIS.parameterGender ==""){
+              }else if(this.parameterRole=="ALL" && this.parameterGender ==""){
                 this.users = this.allusers;
               }else if(this.optionsGender=="ALL" && this.optionsRole == "ALL"){
                 this.users = this.allusers;

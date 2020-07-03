@@ -68,15 +68,14 @@
           <b-avatar v-if="gender == 'MALE'" src="../assets/bosozoku (1).svg" variant="light" style="height:150px;width:150px"></b-avatar>
           <b-avatar v-if="gender == 'FEMALE'" src="../assets/woman.svg" variant="light" style="height:150px;width:150px"></b-avatar>
          <h1 class="username">@{{this.username}}</h1>
-        
+
             <br/>
-        <b-button class="button" title="My reservations" variant="light" v-if="guest" >My reservations 
+        <b-button class="button" title="My reservations" v-on:click.prevent="goToReservationsPage" variant="light" v-if="guest" >My reservations
           <b-avatar variant="light" src="../assets/passport (1).png" v-if="guest" style="width:50px;height:50px"></b-avatar>
         </b-button>
         </div>
 
      </b-card>
-
     <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
 
       <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users</b-button>
@@ -96,12 +95,12 @@
 
       <b-avatar id="amAvatar" style="padding:5px;height:80px;width:80px" variant="light" src="../assets/vacuum.png" v-if="admin"></b-avatar>
       <br/>
-      <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>            
-            
+      <b-button v-b-modal.modal-2 id="amButton" class="button" title="Host" style="marginRight:6%" variant="outline-primary" v-if="admin" >Add amenity</b-button>
+
       <b-avatar style="padding:10px;height:100px;width:100px" variant="light" src="../assets/house.png" v-if="host"></b-avatar>
       <br/>
-      <b-button class="button" title="Apartment" @click="addApartment" style="marginRight:7%" variant="outline-primary" v-if="host" >Add apartment</b-button>      
-                          
+      <b-button class="button" title="Apartment" @click="addApartment" style="marginRight:7%" variant="outline-primary" v-if="host" >Add apartment</b-button>
+
     </b-card>
 
     <b-card class="apartmentsCard" v-if="(this.$session.exists() && guest)">
@@ -124,14 +123,14 @@
       <renderApartments style="width:100%" isLoggedInGuest="true"/>
     </b-card>
 
-    <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">    
+    <b-modal id="modal-1" title="Add host" hide-footer="true" v-if="this.$session.exists() && admin">
         <form v-on:submit.prevent="addHost">
           <b-form-input  name="name" v-model="hostObject.name" type="text" class="input" placeholder="Name"></b-form-input>
           <b-form-input name="lastname"  v-model="hostObject.lastname" type="text" class="input" placeholder="Lastanme"></b-form-input>
-          <b-form-select name="gender" v-model="hostObject.gender" class="input" :options="options"></b-form-select>       
+          <b-form-select name="gender" v-model="hostObject.gender" class="input" :options="options"></b-form-select>
           <b-form-input  name="username" v-model="hostObject.username" type="text" class="input" placeholder="Username"></b-form-input>
           <b-form-input name="password" type="password" v-model="hostObject.password" class="input" placeholder="Password"></b-form-input>
-          <b-form-input        
+          <b-form-input
             type="password"
             class="input"
             placeholder="Repeat password"
@@ -167,7 +166,7 @@ export default {
     name:'Home',
   data () {
       return {
-      
+
         role: "",
         host: false,
         admin: false,
@@ -188,7 +187,7 @@ export default {
         }
 
     }
-    
+
   },
   methods:{
     goToUsersPage : function() {
@@ -196,6 +195,14 @@ export default {
     },
     goToAmenitiesPage : function() {
       this.$router.push('/allamenities')
+    },
+
+    goToSearchApartmentPage : function() {
+      this.$router.push('/apartments')
+    },
+
+    goToReservationsPage : function() {
+      this.$router.push('/allreservations')
     },
 
     onFileSelected(event) {
@@ -238,18 +245,18 @@ export default {
         return;
       }
 
-      
+
       var object = {name:this.hostObject.name, lastname: this.hostObject.lastname, password: this.hostObject.password,
       gender: this.hostObject.gender,username:this.hostObject.username}
 
       console.log(object);
-      
-      
+
+
       this.$http.post("http://localhost:8082/PocetniREST/rest/addhost", object, {headers: this.headers}).then(() => {
-            
+
           location.reload();
-          
-            
+
+
           },
           response => {
             if (response.status == 400) {
@@ -268,12 +275,12 @@ export default {
       }
 
       var object = {name:this.amenityObject.name,image:this.amenityObject.image,amenityStatus:'ACTIVE'}
-    
+
       this.$http.post("http://localhost:8082/PocetniREST/rest/addamenity", object, {headers: this.headers}).then(() => {
           this.$swal("Amenity is added");
           location.reload();
-          
-            
+
+
           },
           response => {
             if (response.status == 400) {
@@ -285,19 +292,19 @@ export default {
   },
 
   created(){
-      
+
     if(this.$session.exists()){
 
         this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
-      
+
       if(response.status == 400){
           this.$swal('Error');
       }else{
-      
+
       this.role = response.body.role;
       this.username = response.body.username;
       console.log(response.body);
-        
+
       if(this.role === "HOST"){
         this.host = true;
       } else if (response.body.role === "ADMIN"){
@@ -305,10 +312,10 @@ export default {
       } else if (response.body.role === "GUEST"){
         this.guest = true;
       }
-      this.gender=response.body.gender;  
+      this.gender=response.body.gender;
       }
     })
-                 
+
   }
 
   },
@@ -449,7 +456,7 @@ h1{
   height:auto;
 
 
-  
+
 }
 
 .apartmentsCardLoggedOut{

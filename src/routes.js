@@ -7,7 +7,9 @@ import MyInfo from './components/MyInfo.vue'
 import AllUsers from './components/AllUsers.vue'
 import AllAmenities from './components/AllAmenities.vue'
 import AddApartment from './components/AddApartment.vue';
-import Apartments from './components/Apartments.vue';
+import Apartments from './components/Apartments.vue'
+import ReserveApartment from './components/ReserveApartment.vue'
+import Reservations from './components/Reservations.vue'
 import EditApartment from './components/EditApartment.vue';
 import ViewApartment from './components/ViewApartment.vue';
 import MyGuests from './components/MyGuests.vue';
@@ -21,6 +23,8 @@ export default[
     { path: '/allamenities', component: AllAmenities},
     { path: '/addapartment', component: AddApartment},
     { path: '/apartments', component: Apartments},
+    { path: '/reservethis/:name', component: ReserveApartment },
+    { path: '/allreservations', component: Reservations},
     { path: '/edit/:id', component: EditApartment},
     { path: '/view/:id', component: ViewApartment},
     { path: '/myguests', component: MyGuests},
