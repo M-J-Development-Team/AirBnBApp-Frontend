@@ -1,9 +1,7 @@
 <template>
   <div>
-     <b-button variant="outline-light" style="marginTop:-5%;marginLeft:5%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>
-
+     <b-button variant="outline-light" style="marginTop:-5%;marginLeft:5%;position:absolute" v-on:click.prevent="backToHome"><img style="width:30px;height:30px;" src="../assets/back.png"/></b-button>  
     <b-card style="marginTop:10%;width:80%;marginLeft:5%;height:auto">
-
           <b-card
             style="marginTop:1%;width:80%;marginLeft:5%;height:40%;textAlign:center;marginBottom:1%"
             v-if="apartment.photoPath.length > 0"
@@ -13,6 +11,12 @@
             <b-img :src="apartment.photoPath" style="width:50%;height:40%"></b-img>
           </b-card>
 
+         <b-button
+            class="reserveButton"
+            v-on:click="checkToReserve(apartment.name)"
+          >Check for free dates
+          <b-img src="../assets/calendar.svg" style="height:20px;width:20px"/>
+          </b-button>
 
         <div style="padding:15px">
             <b-row >
@@ -144,11 +148,6 @@
           </b-form-group>
         </b-row>
         </div>
-
-          <b-button
-            class="reserveButton"
-            v-on:click="checkToReserve(apartment.name)"
-          >Check for free dates</b-button>
     </b-card>
 
     <b-card class="commentsCard">
@@ -202,9 +201,9 @@ export default {
   width:30%;
   margin-left:5%;
   margin-top:1.5%;
-
+}
 .reserveButton {
-  margin-left: 60%;
-  margin-top: -180%;
+  margin-left: 0%;
+  margin-top:  0%;
 }
 </style>

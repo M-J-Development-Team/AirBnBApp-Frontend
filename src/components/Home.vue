@@ -79,7 +79,7 @@
     <b-card class="welcomecard" v-if="this.$session.exists() && (admin || host)">
 
 
-      <b-button class="adminbuttons" style="marginTop:-6%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users<b-avatar src="../assets/user (1).svg" variant="light" style="height:30px;widht:30px"/> </b-button>
+      <b-button class="adminbuttons" style="marginTop:1%" title="Users" variant="outline-primary"  v-on:click.prevent="goToUsersPage" v-if=" admin">All users<b-avatar src="../assets/user (1).svg" variant="light" style="height:30px;widht:30px"/> </b-button>
       <br/><b-button class="adminbuttons" title="Apartments" variant="outline-primary" v-if=" admin" v-on:click.prevent="goToApartmentsPage">All apartments<b-avatar src="../assets/tent.png" variant="light" style="height:30px;widht:30px"/></b-button>
       <br/><b-button class="adminbuttons" title="Amenities" variant="outline-primary" v-if="admin" v-on:click.prevent="goToAmenitiesPage">All amenities <b-avatar src="../assets/iron2.png" variant="light" style="height:30px;widht:30px"/></b-button>
       <br/><b-button class="adminbuttons" title="Reservations" variant="outline-primary" v-on:click.prevent="goToReservationsPage"  v-if="admin" >All reservations <b-avatar src="../assets/passport (1).png" variant="light" style="height:30px;widht:30px"/></b-button>
@@ -378,7 +378,7 @@ export default {
 
 .adminbuttons{
 
-    margin-top:3%;
+    margin-top:4%;
     margin-left: 0%;
     width: 200px;
 }
@@ -392,7 +392,7 @@ export default {
 .addingcard{
 
   margin-left:35%;
-  margin-top:32%;
+  margin-top:35%;
   width: 35%;
   height: auto;
   position: absolute;
