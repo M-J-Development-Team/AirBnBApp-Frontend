@@ -142,6 +142,11 @@
           </b-form-group>
         </b-row>
         </div>
+        
+          <b-button
+            class="reserveButton"
+            v-on:click="checkToReserve(apartment.name)"
+          >Check for free dates</b-button>
     </b-card>
   </div>
 </template>
@@ -170,9 +175,20 @@ export default {
 
        backToHome : function(){
             this.$router.push('/');
-       }
+       },
+       checkToReserve(id) {
+      this.$router.push(`/reservethis/${id}`);
+    }
 
   }
 
 };
 </script>
+
+<style scoped>
+
+.reserveButton {
+  margin-left: 60%;
+  margin-top: -180%;
+}
+</style>
