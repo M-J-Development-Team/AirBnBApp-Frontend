@@ -3,7 +3,8 @@
     <div class="apartmentContainer" v-if="isLoggedInGuest">  
         <b-card @click="view(apartment.idOne)" v-for="apartment in this.apartments"  v-bind:key="apartment.idOne" class="oneApartmentGuest">
             <b-card-header style="backgroundColor:transparent">
-            <b-img class="mr-3"  variant="light" style="height:150ox;width:150px" :src="apartment.photoPath"></b-img>
+            <b-img class="mr-3" v-if="apartment.photoPath !== 0"  variant="light" style="height:150ox;width:150px" :src="apartment.photoPath"></b-img>
+            <b-img class="mr-3" v-if="apartment.photoPath == 0"  variant="light" style="height:150ox;width:150px" src="../assets/house.png"></b-img>
             </b-card-header>
             <b-card-body style="textAlign:center">
              <a class="button">{{apartment.name}}</a> 

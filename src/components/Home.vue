@@ -148,10 +148,10 @@
 
      <b-modal id="modal-2" title="Add amenity" hide-footer="true" v-if="this.$session.exists() && admin">
         <form v-on:submit.prevent="addAmenity">
-          <b-form-input  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
+          <b-form-input required="true"  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
           <br />
               <b-form-group>
-              <b-form-file  style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
+              <b-form-file required="true" style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
           </b-form-group>
           <br/>
           <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
@@ -315,7 +315,7 @@ export default {
 
       if(this.role === "HOST"){
         this.host = true;
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.name}`,{headers:this.headers}).then(resp =>{
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
           this.numberOfUnapprovedComments = resp.body.reduce((acc) => acc + Object.length, 0);
           this.unapprovedComments = resp.body;
           console.log(this.unapprovedComments);

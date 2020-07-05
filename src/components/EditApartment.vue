@@ -22,13 +22,14 @@
                 :placeholder="apartment.name"
                 v-model="apartment.name"
                 style="width:300px"
+                required="true"
               ></b-form-input>
             </b-form-group>
           </b-row>
 
           <b-form-group style="marginLeft:-14px;marginTop:5px" >
             <label >Apartment type</label>
-            <b-form-select style="width:300px" v-model="apartment.type" :options="options"></b-form-select>
+            <b-form-select required="true" style="width:300px" v-model="apartment.type" :options="options"></b-form-select>
           </b-form-group>
 
           <b-form-group
@@ -59,6 +60,7 @@
             v-model="apartment.numberOfGuests"
             :options="optionsGuests"
             style="width:300px"
+            required="true"
           ></b-form-select>
         </b-form-group>
 
@@ -72,7 +74,7 @@
             label-for="input-1"
             style="width:150px;marginLeft:0px"
           >
-            <b-form-timepicker v-model="apartment.checkInTime" locale="en"></b-form-timepicker>
+            <b-form-timepicker required="true" v-model="apartment.checkInTime" locale="en"></b-form-timepicker>
           </b-form-group>
 
           <b-form-group
@@ -82,7 +84,7 @@
             label-for="input-1"
             style="width:150px;marginLeft:0px"
           >
-            <b-form-timepicker v-model="apartment.checkOutTime" locale="en"></b-form-timepicker>
+            <b-form-timepicker required="true" v-model="apartment.checkOutTime" locale="en"></b-form-timepicker>
           </b-form-group>
 
           </div>
@@ -140,6 +142,7 @@
             id="input-2"
             type="number"
             style="width:300px;marginBottom:10px"
+            required="true"
           ></b-form-input>
         </b-form-group>
 
@@ -154,6 +157,7 @@
               :placeholder="apartment.location.address.street"
               v-model="apartment.location.address.street"
               id="input-2"
+              required="true"
               
             ></b-form-input>
             <br/>
@@ -162,6 +166,7 @@
               :placeholder="apartment.location.address.number"
               v-model="apartment.location.address.number"
               id="input-2"
+              required="true"
               
             ></b-form-input>
           </b-form-group>
@@ -175,6 +180,7 @@
               :placeholder="apartment.location.address.city"
               v-model="apartment.location.address.city"
               id="input-2"
+              required="true"
               
             ></b-form-input>
             <br/>
@@ -183,6 +189,7 @@
               :placeholder="apartment.location.address.zipCode"
               v-model="apartment.location.address.zipCode"
               id="input-2"
+              required="true"
               
             ></b-form-input>
           </b-form-group>
@@ -203,10 +210,10 @@
         >
           <b-card style="marginLeft:10px">
             <label for="example-datepicker">Avaliable for renting from:</label>
-            <b-form-datepicker :value="period.from" class="mb-2" style="width:300px"></b-form-datepicker>
+            <b-form-datepicker disabled="true" :value="period.from" class="mb-2" style="width:300px"></b-form-datepicker>
 
             <label for="example-datepicker">To:</label>
-            <b-form-datepicker :value="period.to" class="mb-2" style="width:300px;marginTop:4px"></b-form-datepicker>
+            <b-form-datepicker  disabled="true" :value="period.to" class="mb-2" style="width:300px;marginTop:4px"></b-form-datepicker>
           </b-card>
           
         </b-form-group>
@@ -226,14 +233,14 @@
       <form v-on:submit.prevent="addNewDate">
         <b-form-group>
           <label for="example-datepicker">Rent from:</label>
-          <b-form-datepicker v-model="rentPeriod.from" class="mb-2" style="width:300px"></b-form-datepicker>
+          <b-form-datepicker :min="minDate"  v-model="rentPeriod.from" class="mb-2" style="width:300px"></b-form-datepicker>
         </b-form-group>
 
         <b-form-group>
           <label for="example-datepicker">Rent to:</label>
-          <b-form-datepicker v-model="rentPeriod.to" class="mb-2" style="width:300px"></b-form-datepicker>
+          <b-form-datepicker :min="minDate" v-model="rentPeriod.to" class="mb-2" style="width:300px"></b-form-datepicker>
         </b-form-group>
-        <b-button id="submit-button" variant="outline-primary" type="submit" size="sm">Add</b-button>
+        <b-button  id="submit-button" variant="outline-primary" type="submit" size="sm">Add</b-button>
       </form>
     </b-modal>
   </div>
@@ -253,6 +260,8 @@ export default {
     return {
       apartment: {},
       rentPeriod: { from: "", to: "" },
+      minDate: new Date(),
+      minDateTo: new Date() + 1,
       value: [],
       options: [
         { value: "none", text: "Please select an option" },
@@ -337,6 +346,10 @@ export default {
       var object = { from: this.rentPeriod.from, to: this.rentPeriod.to };
       console.log(object);
 
+      if(this.rentPeriod.from == '' || this.rentPeriod.to == ''){
+         this.$swal('You have to enter start and end date of rent period.');
+      }
+
       this.$http
         .post(
           `http://localhost:8082/PocetniREST/rest/apartments/adddate/{idOne}${this.$route.params.id}`,
@@ -355,8 +368,14 @@ export default {
         );
     }, 
      edit: function() {
-       console.log(this.apartment);
+       if(this.apartment.location.address.zipCode == ''){
+          this.$swal("Zip code can not be empty");
+        return;
+       }
+
+       this.apartment.amenities = this.value;
       this.$http.post(`http://localhost:8082/PocetniREST/rest/editapartment`,this.apartment,{ headers: this.headers}).then(() => {
+            this.$swal("Successfully edited apartment");
             location.reload();
           },
           response => {

@@ -11,6 +11,7 @@
 
             <b-list-group-item class="d-flex align-items-center">
                 <span class="mr-auto"> {{amenity.name}}</span>
+                <b-avatar variant="light" :src="amenity.image"/>
                 <b-button variant="outline-danger" v-on:click="deleteAmenity(amenity.name)">Delete</b-button>
             </b-list-group-item>
     

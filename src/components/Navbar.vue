@@ -5,7 +5,6 @@
     <div>
         <nav>
         <router-link class="links" to="/"  v-b-tooltip.hover title="Home"><img src="../assets/home-run (1).png" class="icon"/></router-link>
-        <router-link class="links" to="/" v-b-tooltip.hover title="See apartments" v-if="(this.$session.exists() && guest) || (!this.$session.exists())"><b-img src="../assets/search.png" style="height:25px;width:25px" variant="light"/></router-link>
 
 
         <router-link class="links" v-b-tooltip.hover title="Login" to="/login" v-if="!this.$session.exists()" >Login</router-link>
