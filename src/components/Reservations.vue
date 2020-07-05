@@ -7,6 +7,32 @@
     >
       <img style="width:30px;height:30px;" src="../assets/back.png" />
     </b-button>
+    <div v-if="isGuest" style="marginTop:5%;marginLeft:10%">
+      <b-form-select
+        style="marginTop:10px;width:200px;marginLeft:-10px"
+        v-model="selectedSort"
+        :options="options"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:10px"
+        @click="sortReservationsGuest"
+        class="searchButton"
+        variant="outline-dark"
+      >Sort it</b-button>
+    </div>
+    <div v-if="isGuest" style="marginTop:3%;marginLeft:8%">
+      <b-form-select
+        style="width:200px;margin:10px"
+        v-model="selectedStatus"
+        :options="optionsStatus"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:7px"
+        @click="filterByStatusGuest"
+        class="searchButton"
+        variant="outline-dark"
+      >Filter By Status</b-button>
+    </div>
     <b-container v-if="isGuest">
       <b-card-group>
         <b-card
@@ -42,6 +68,32 @@
         </b-card>
       </b-card-group>
     </b-container>
+    <div v-if="isHost" style="marginTop:5%;marginLeft:10%">
+      <b-form-select
+        style="marginTop:10px;width:200px;marginLeft:-10px"
+        v-model="selectedSort"
+        :options="options"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:10px"
+        @click="sortReservationsHost"
+        class="searchButton"
+        variant="outline-dark"
+      >Sort it</b-button>
+    </div>
+    <div v-if="isHost" style="marginTop:3%;marginLeft:-4%">
+      <b-form-select
+        style="width:200px;margin:10px"
+        v-model="selectedStatus"
+        :options="optionsStatus"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:7px"
+        @click="filterByStatusHost"
+        class="searchButton"
+        variant="outline-dark"
+      >Filter By Status</b-button>
+    </div>
     <b-container v-if="isHost">
       <b-card-group>
         <b-card
@@ -82,6 +134,32 @@
         </b-card>
       </b-card-group>
     </b-container>
+    <div v-if="isAdmin" style="marginTop:5%;marginLeft:10%">
+      <b-form-select
+        style="marginTop:10px;width:200px;marginLeft:-10px"
+        v-model="selectedSort"
+        :options="options"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:10px"
+        @click="sortReservationsAdmin"
+        class="searchButton"
+        variant="outline-dark"
+      >Sort it</b-button>
+    </div>
+    <div v-if="isAdmin" style="marginTop:3%;marginLeft:8%">
+      <b-form-select
+        style="width:200px;margin:10px"
+        v-model="selectedStatus"
+        :options="optionsStatus"
+      ></b-form-select>
+      <b-button
+        style="marginLeft:7px"
+        @click="filterByStatusAdmin"
+        class="searchButton"
+        variant="outline-dark"
+      >Filter By Status</b-button>
+    </div>
     <b-container v-if="isAdmin">
       <b-card-group>
         <b-card
@@ -137,6 +215,21 @@ export default {
       parameter: "",
       user: "",
       allReservations: [],
+      options: [
+        { value: null, text: "Sort" },
+        { value: "ascending", text: "Ascending" },
+        { value: "descending", text: "Descending" }
+      ],
+      selectedSort: null,
+      selectedStatus: null,
+      optionsStatus: [
+        { value: null, text: "Filter By Status" },
+        { value: "CREATED", text: "Created" },
+        { value: "COMPLETED", text: "Completed" },
+        { value: "DENIED", text: "Denied" },
+        { value: "CANCELED", text: "Cancelled" },
+        { value: "ACCEPTED", text: "Accepted" }
+      ],
       state: "readonly",
 
       headers: {
@@ -186,6 +279,77 @@ export default {
           } else {
             alert("Neuspesno potvrdjeno");
           }
+        });
+    },
+    filterByStatusGuest() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/filterGuest/${this.selectedStatus}/${this.user.username}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
+        });
+    },
+
+    filterByStatusHost() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/filterHost/${this.selectedStatus}/${this.user.username}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
+        });
+    },
+
+    filterByStatusAdmin() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/filter/${this.selectedStatus}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
+        });
+    },
+
+    sortReservationsGuest() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/sortGuest/${this.selectedSort}/${this.user.username}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
+        });
+    },
+
+    sortReservationsAdmin() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/sortAdmin/${this.selectedSort}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
+        });
+    },
+
+    sortReservationsHost() {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservation/sortHost/${this.selectedSort}/${this.user.username}`,
+          { headers: this.headers }
+        )
+        .then(response => {
+          this.reservations = response.body;
+          console.log(this.reservations);
         });
     }
   },
