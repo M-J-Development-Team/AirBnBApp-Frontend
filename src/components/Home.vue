@@ -145,13 +145,6 @@
       <br />
       <b-button
         class="hostbuttons"
-        title="Reservations"
-        variant="outline-primary"
-        v-if="host"
-      >Reservations</b-button>
-      <br />
-      <b-button
-        class="hostbuttons"
         title="Comments"
         @click="seeCommentsToApprove"
         variant="outline-primary"
