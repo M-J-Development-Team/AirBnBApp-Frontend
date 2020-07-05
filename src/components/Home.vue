@@ -145,13 +145,6 @@
       <br />
       <b-button
         class="hostbuttons"
-        title="Reservations"
-        variant="outline-primary"
-        v-if="host"
-      >Reservations</b-button>
-      <br />
-      <b-button
-        class="hostbuttons"
         title="Comments"
         @click="seeCommentsToApprove"
         variant="outline-primary"
@@ -271,34 +264,16 @@
       </form>
     </b-modal>
 
-    <b-modal
-      id="modal-2"
-      title="Add amenity"
-      hide-footer="true"
-      v-if="this.$session.exists() && admin"
-    >
-      <form v-on:submit.prevent="addAmenity">
-        <b-form-input
-          name="name"
-          v-model="amenityObject.name"
-          type="text"
-          class="input"
-          placeholder="Name"
-        ></b-form-input>
-        <br />
-        <b-form-group>
-          <b-form-file
-            style="width:300px"
-            accept="image/*"
-            @change="onFileSelected"
-            type="file"
-            placeholder=" Choose a file or drop it here..."
-            drop-placeholder="Drop file here..."
-          ></b-form-file>
-        </b-form-group>
-        <br />
-        <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
-      </form>
+     <b-modal id="modal-2" title="Add amenity" hide-footer="true" v-if="this.$session.exists() && admin">
+        <form v-on:submit.prevent="addAmenity">
+          <b-form-input required="true"  name="name" v-model="amenityObject.name" type="text" class="input" placeholder="Name"></b-form-input>
+          <br />
+              <b-form-group>
+              <b-form-file required="true" style="width:300px" accept="image/*" @change="onFileSelected" type="file" placeholder=" Choose a file or drop it here..." drop-placeholder="Drop file here..."></b-form-file>
+          </b-form-group>
+          <br/>
+          <b-button type="submit" class="btns" variant="outline-primary">Add amenity</b-button>
+        </form>
     </b-modal>
   </div>
 </template>
@@ -469,47 +444,36 @@ export default {
     }
   },
 
-  created() {
-    if (this.$session.exists()) {
-      this.$http
-        .get(
-          `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
-            "idOne"
-          )}`,
-          { headers: this.headers }
-        )
-        .then(response => {
-          if (response.status == 400) {
-            this.$swal("Error");
-          } else {
-            this.role = response.body.role;
-            this.username = response.body.username;
-            console.log(response.body);
+  created(){
 
-            if (this.role === "HOST") {
-              this.host = true;
-              this.$http
-                .get(
-                  `http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.name}`,
-                  { headers: this.headers }
-                )
-                .then(resp => {
-                  this.numberOfUnapprovedComments = resp.body.reduce(
-                    acc => acc + Object.length,
-                    0
-                  );
-                  this.unapprovedComments = resp.body;
-                  console.log(this.unapprovedComments);
-                });
-            } else if (response.body.role === "ADMIN") {
-              this.admin = true;
-            } else if (response.body.role === "GUEST") {
-              this.guest = true;
-            }
-            this.gender = response.body.gender;
-          }
-        });
-    }
+    if(this.$session.exists()){
+
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+
+      if(response.status == 400){
+          this.$swal('Error');
+      }else{
+
+      this.role = response.body.role;
+      this.username = response.body.username;
+      console.log(response.body);
+
+      if(this.role === "HOST"){
+        this.host = true;
+        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
+          this.numberOfUnapprovedComments = resp.body.reduce((acc) => acc + Object.length, 0);
+          this.unapprovedComments = resp.body;
+          console.log(this.unapprovedComments);
+          })
+      } else if (response.body.role === "ADMIN"){
+        this.admin = true;
+      } else if (response.body.role === "GUEST"){
+        this.guest = true;
+      }
+      this.gender=response.body.gender;
+      }
+    })
+
   }
 };
 </script>

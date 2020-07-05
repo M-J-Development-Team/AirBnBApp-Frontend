@@ -38,23 +38,23 @@
         <b-card
           v-for="reservation in this.reservations"
           v-bind:key="reservation.idOne"
-          img-src="https://picsum.photos/600/300/?image=25"
           bg-variant="light"
           :header="reservation.apartment"
           class="text-center"
-          style="max-width: 23rem; color:rgb(127, 129, 198)"
+          style="max-width: 23rem; color:rgb(127, 129, 198);marginLeft:15px"
         >
+        <b-img src="../assets/travelling.png" style="height:100px;width:100px"/>
           <b-card-text>
             This is reserved from
             <b-form-datepicker
               :value="reservation.reservedFrom"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>till
             <b-form-datepicker
               :value="reservation.reservedTill"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>. Number of nights is
             <b>{{reservation.numberOfNights}}</b> and the price is
             <b>{{reservation.price}}</b>
@@ -99,23 +99,23 @@
         <b-card
           v-for="reservation in this.reservations"
           v-bind:key="reservation.idOne"
-          img-src="https://picsum.photos/600/300/?image=25"
           bg-variant="light"
           :header="reservation.apartment"
           class="text-center"
-          style="max-width: 23rem; color:rgb(127, 129, 198)"
+          style="max-width: 23rem; color:rgb(127, 129, 198);marginLeft:15px"
         >
+        <b-img src="../assets/travelling.png" style="height:100px;width:100px"/>
           <b-card-text>
             Guest is {{reservation.guest}}. This is reserved from
             <b-form-datepicker
               :value="reservation.reservedFrom"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>till
             <b-form-datepicker
               :value="reservation.reservedTill"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>. Number of nights is
             <b>{{reservation.numberOfNights}}</b> and the price is
             <b>{{reservation.price}}</b>
@@ -124,7 +124,7 @@
           <b-button
             class="cancelBtn"
             v-if="reservation.reservationStatus == 'CREATED'"
-            @click="cancel(reservation.idOne)"
+            @click="deny(reservation.idOne)"
           >Deny Reservation</b-button>
           <b-button
             class="approveBtn"
@@ -165,23 +165,23 @@
         <b-card
           v-for="reservation in this.reservations"
           v-bind:key="reservation.idOne"
-          img-src="https://picsum.photos/600/300/?image=25"
           bg-variant="light"
           :header="reservation.apartment"
           class="text-center"
-          style="max-width: 23rem; color:rgb(127, 129, 198)"
+          style="max-width: 23rem; color:rgb(127, 129, 198);marginLeft:15px"
         >
+        <b-img src="../assets/travelling.png" style="height:100px;width:100px"/>
           <b-card-text>
             Guest is {{reservation.guest}}. This is reserved from
             <b-form-datepicker
               :value="reservation.reservedFrom"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>till
             <b-form-datepicker
               :value="reservation.reservedTill"
               id="ex-disabled-readonly"
-              :readonly="readonly"
+              disabled="true"
             ></b-form-datepicker>. Number of nights is
             <b>{{reservation.numberOfNights}}</b> and the price is
             <b>{{reservation.price}}</b>
@@ -190,7 +190,7 @@
           <b-button
             class="cancelBtn"
             v-if="reservation.reservationStatus == 'CREATED'"
-            @click="cancel(reservation.idOne)"
+            @click="deny(reservation.idOne)"
           >Deny Reservation</b-button>
           <b-button
             class="approveBtn"
@@ -231,6 +231,7 @@ export default {
         { value: "ACCEPTED", text: "Accepted" }
       ],
       state: "readonly",
+      apartments:[],
 
       headers: {
         "Content-Type": "application/json"
@@ -251,6 +252,24 @@ export default {
       this.$http
         .post(
           `http://localhost:8082/PocetniREST/rest/reservations/cancel/${id}`,
+          {
+            headers: this.headers
+          }
+        )
+        .then(response => {
+          if (response.status == 200) {
+            alert("Uspesno otkazano");
+            this.$router.push("/");
+          } else {
+            alert("Neuspesno otkazivanje");
+          }
+        });
+    },
+
+    deny(id) {
+      this.$http
+        .post(
+          `http://localhost:8082/PocetniREST/rest/reservations/deny/${id}`,
           {
             headers: this.headers
           }
@@ -353,22 +372,10 @@ export default {
         });
     }
   },
-
-  beforeCreate() {
-    this.$http
-      .get("http://localhost:8082/PocetniREST/rest/reservations/all", {
-        headers: this.headers
-      })
-      .then(response => {
-        response.body.forEach(element => {
-          this.reservations.push(element);
-        });
-
-        console.log(this.reservations);
-      });
-  },
   created() {
     if (this.$session.exists()) {
+
+
       this.$http
         .get(
           `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
