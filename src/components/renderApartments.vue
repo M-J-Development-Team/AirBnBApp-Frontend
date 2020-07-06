@@ -7,7 +7,7 @@
         :options="options"
       ></b-form-select>
       <b-button style="marginLeft:10px" v-if="!isHost && !isAdmin" @click="sortApartments" class="searchButton" variant="outline-dark">Sort it</b-button>
-      <div v-if="!isHost && !isAdmin" style="marginTop:-4%;marginLeft:30%">
+      <div v-if="!isHost && !isAdmin" style="marginTop:2%;marginLeft:-4%">
       <b-form-select
         style="width:200px;margin:10px"
         v-model="selectedType"
@@ -15,7 +15,7 @@
       ></b-form-select>
       <b-button style="marginLeft:7px" @click="filterByType" class="searchButton" variant="outline-dark">Filter By Type</b-button>
     </div>
-    <div v-if="!isHost && !isAdmin" style="marginTop:-4.5%;marginLeft:65%">
+    <div v-if="!isHost && !isAdmin" style="marginTop:4%;marginLeft:-4%">
       <b-form-select
         style="width:200px;margin:10px"
         v-model="selectedStatus"
