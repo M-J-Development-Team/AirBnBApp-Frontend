@@ -140,7 +140,7 @@ export default {
   },
 
    beforeCreate(){
-        this.$http.get('http://localhost:8082/PocetniREST/rest/allusers',{headers:this.headers}).then((response) => {
+        this.$http.get('http://localhost:80/PocetniREST/rest/allusers',{headers:this.headers}).then((response) => {
             response.body.forEach(element => {
 
                   this.users.push(element);

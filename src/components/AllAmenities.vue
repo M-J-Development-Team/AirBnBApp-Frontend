@@ -52,9 +52,9 @@ export default {
        },
 
        deleteAmenity(name) {
-        this.$http.delete(`http://localhost:8082/PocetniREST/rest/amenity/delete/${name}`,{headers:this.headers}).then(() =>{
+        this.$http.delete(`http://localhost:80/PocetniREST/rest/amenity/delete/${name}`,{headers:this.headers}).then(() =>{
           alert('Amenity is deleted!')
-          window.location.reload();
+          this.$router.push('/allamenities');
           
         })
       },
@@ -68,7 +68,7 @@ export default {
   
 
    beforeCreate(){
-        this.$http.get('http://localhost:8082/PocetniREST/rest/amenity/all',{headers:this.headers}).then((response) => {
+        this.$http.get('http://localhost:80/PocetniREST/rest/amenity/all',{headers:this.headers}).then((response) => {
             response.body.forEach(element => {
 
                   this.amenities.push(element);

@@ -66,11 +66,11 @@ export default {
           console.log(this.apartmentId);
 
           if(this.$session.exists()){
-                this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+                this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
 
                     if(response.body.role == 'ADMIN'){
                         
-                        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-comments-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(response =>{     
+                        this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-comments-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(response =>{     
                         this.comments = response.body; 
                         this.isAdmin = true;
                         this.isLoggedIn = true;
@@ -79,7 +79,7 @@ export default {
                     }
                      if(response.body.role == 'HOST'){
                         
-                        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-comments-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(response =>{     
+                        this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-comments-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(response =>{     
                         this.comments = response.body; 
                         this.isHost= true;
                         this.isLoggedIn = true;
@@ -89,7 +89,7 @@ export default {
 
                       if(response.body.role == 'GUEST'){
                         
-                        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-approved-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(resp =>{     
+                        this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-approved-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(resp =>{     
                         this.comments = resp.body; 
                         this.isGuest = true;
                         this.isLoggedIn = true;
@@ -100,7 +100,7 @@ export default {
           })
 
         }else {
-           this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-approved-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(resp =>{     
+           this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-approved-by-apartment/${this.apartmentId}`,{headers:this.headers}).then(resp =>{     
                         this.comments = resp.body; 
                         this.isLoggedIn = false;
                         })

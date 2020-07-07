@@ -29,9 +29,9 @@ export default {
       created(){
           if(this.$session.exists()){
 
-              this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+              this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
 
-                this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
+                this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
                 this.unapprovedComments = resp.body;
                 console.log(this.unapprovedComments);
                 })
@@ -43,18 +43,18 @@ export default {
   methods : {
 
       approve : function(id) {
-            this.$http.post(`http://localhost:8082/PocetniREST/rest/set-comment-visible/${id}`,{headers:this.headers}).then(resp =>{
+            this.$http.post(`http://localhost:80/PocetniREST/rest/set-comment-visible/${id}`,{headers:this.headers}).then(resp =>{
             console.log(resp);
-            this.$router.push('/approvecomments')
-            location.reload();
+            this.$swal("Successfully approved");
+            this.$router.push(`/`);
           })
     },
 
      decline : function(id) {
-            this.$http.post(`http://localhost:8082/PocetniREST/rest/set-comment-declined/${id}`,{headers:this.headers}).then(resp =>{
+            this.$http.post(`http://localhost:80/PocetniREST/rest/set-comment-declined/${id}`,{headers:this.headers}).then(resp =>{
             console.log(resp);
-            this.$router.push('/approvecomments')
-            location.reload();
+            this.$swal("Successfully declined");
+            this.$router.push(`/`);
           })
     },
 

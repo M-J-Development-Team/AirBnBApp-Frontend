@@ -298,7 +298,7 @@ export default {
   beforeCreate() {
     this.$http
       .get(
-        `http://localhost:8082/PocetniREST/rest/apartments/{idOne}${this.$route.params.id}`,
+        `http://localhost:80/PocetniREST/rest/apartments/{idOne}${this.$route.params.id}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -310,7 +310,7 @@ export default {
   created() {
     this.$http
       .get(
-        `http://localhost:8082/PocetniREST/rest/amenity/avaliable/{idOne}${this.$route.params.id}`,
+        `http://localhost:80/PocetniREST/rest/amenity/avaliable/{idOne}${this.$route.params.id}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -328,7 +328,7 @@ export default {
       });
 
       if(this.$session.exists()){
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+        this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
       
       if(response.status == 400){
           this.$swal('Error');
@@ -352,13 +352,13 @@ export default {
 
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/adddate/{idOne}${this.$route.params.id}`,
+          `http://localhost:80/PocetniREST/rest/apartments/adddate/{idOne}${this.$route.params.id}`,
           object,
           { headers: this.headers }
         )
         .then(
           () => {
-            location.reload();
+            this.$router.push(`/edit/${this.$route.params.id}`);
           },
           response => {
             if (response.status == 400) {
@@ -374,9 +374,9 @@ export default {
        }
 
        this.apartment.amenities = this.value;
-      this.$http.post(`http://localhost:8082/PocetniREST/rest/editapartment`,this.apartment,{ headers: this.headers}).then(() => {
+      this.$http.post(`http://localhost:80/PocetniREST/rest/editapartment`,this.apartment,{ headers: this.headers}).then(() => {
             this.$swal("Successfully edited apartment");
-            location.reload();
+            this.$router.push(`/edit/${this.$route.params.id}`);
           },
           response => {
             if (response.status == 400) {

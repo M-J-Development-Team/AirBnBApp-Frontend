@@ -399,12 +399,12 @@ export default {
       console.log(object);
 
       this.$http
-        .post("http://localhost:8082/PocetniREST/rest/addhost", object, {
+        .post("http://localhost:80/PocetniREST/rest/addhost", object, {
           headers: this.headers
         })
         .then(
           () => {
-            location.reload();
+            this.$router.push(`/`);
           },
           response => {
             if (response.status == 400) {
@@ -427,13 +427,13 @@ export default {
       };
 
       this.$http
-        .post("http://localhost:8082/PocetniREST/rest/addamenity", object, {
+        .post("http://localhost:80/PocetniREST/rest/addamenity", object, {
           headers: this.headers
         })
         .then(
           () => {
             this.$swal("Amenity is added");
-            location.reload();
+            this.$router.push(`/`);
           },
           response => {
             if (response.status == 400) {
@@ -448,7 +448,7 @@ export default {
 
     if(this.$session.exists()){
 
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+        this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
 
       if(response.status == 400){
           this.$swal('Error');
@@ -460,7 +460,7 @@ export default {
 
       if(this.role === "HOST"){
         this.host = true;
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
+        this.$http.get(`http://localhost:80/PocetniREST/rest/get-all-unapproved-for-host/${response.body.username}`,{headers:this.headers}).then(resp =>{
           this.numberOfUnapprovedComments = resp.body.reduce((acc) => acc + Object.length, 0);
           this.unapprovedComments = resp.body;
           console.log(this.unapprovedComments);

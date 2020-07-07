@@ -251,7 +251,7 @@ export default {
     cancel(id) {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservations/cancel/${id}`,
+          `http://localhost:80/PocetniREST/rest/reservations/cancel/${id}`,
           {
             headers: this.headers
           }
@@ -269,7 +269,7 @@ export default {
     deny(id) {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservations/deny/${id}`,
+          `http://localhost:80/PocetniREST/rest/reservations/deny/${id}`,
           {
             headers: this.headers
           }
@@ -286,7 +286,7 @@ export default {
     approve(id) {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservations/approve/${id}`,
+          `http://localhost:80/PocetniREST/rest/reservations/approve/${id}`,
           {
             headers: this.headers
           }
@@ -303,7 +303,7 @@ export default {
     filterByStatusGuest() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/filterGuest/${this.selectedStatus}/${this.user.username}`,
+          `http://localhost:80/PocetniREST/rest/reservation/filterGuest/${this.selectedStatus}/${this.user.username}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -315,7 +315,7 @@ export default {
     filterByStatusHost() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/filterHost/${this.selectedStatus}/${this.user.username}`,
+          `http://localhost:80/PocetniREST/rest/reservation/filterHost/${this.selectedStatus}/${this.user.username}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -327,7 +327,7 @@ export default {
     filterByStatusAdmin() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/filter/${this.selectedStatus}`,
+          `http://localhost:80/PocetniREST/rest/reservation/filter/${this.selectedStatus}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -339,7 +339,7 @@ export default {
     sortReservationsGuest() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/sortGuest/${this.selectedSort}/${this.user.username}`,
+          `http://localhost:80/PocetniREST/rest/reservation/sortGuest/${this.selectedSort}/${this.user.username}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -351,7 +351,7 @@ export default {
     sortReservationsAdmin() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/sortAdmin/${this.selectedSort}`,
+          `http://localhost:80/PocetniREST/rest/reservation/sortAdmin/${this.selectedSort}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -363,7 +363,7 @@ export default {
     sortReservationsHost() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/reservation/sortHost/${this.selectedSort}/${this.user.username}`,
+          `http://localhost:80/PocetniREST/rest/reservation/sortHost/${this.selectedSort}/${this.user.username}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -378,7 +378,7 @@ export default {
 
       this.$http
         .get(
-          `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
+          `http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get(
             "idOne"
           )}`,
           { headers: this.headers }
@@ -395,7 +395,7 @@ export default {
 
               this.$http
                 .get(
-                  `http://localhost:8082/PocetniREST/rest/reservations/all-hosts-reservations/${this.user.username}`,
+                  `http://localhost:80/PocetniREST/rest/reservations/all-hosts-reservations/${this.user.username}`,
                   {
                     headers: this.headers
                   }
@@ -412,7 +412,7 @@ export default {
 
               this.$http
                 .get(
-                  "http://localhost:8082/PocetniREST/rest/reservations/all",
+                  "http://localhost:80/PocetniREST/rest/reservations/all",
                   {
                     headers: this.headers
                   }
@@ -428,7 +428,7 @@ export default {
               this.isGuest = true;
               this.$http
                 .get(
-                  `http://localhost:8082/PocetniREST/rest/reservations/all/${this.user.username}`,
+                  `http://localhost:80/PocetniREST/rest/reservations/all/${this.user.username}`,
                   {
                     headers: this.headers
                   }
@@ -439,7 +439,6 @@ export default {
                 });
             } else {
               this.$router.push("/");
-              location.reload();
             }
           }
         });

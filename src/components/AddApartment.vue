@@ -395,7 +395,7 @@ export default {
       console.log(objekat);
 
       this.$http
-        .post("http://localhost:8082/PocetniREST/rest/apartmentsadd", objekat, {
+        .post("http://localhost:80/PocetniREST/rest/apartmentsadd", objekat, {
           headers: this.headers
         })
         .then(
@@ -416,7 +416,7 @@ export default {
     if (this.$session.exists()) {
       this.$http
         .get(
-          `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
+          `http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get(
             "idOne"
           )}`,
           { headers: this.headers }
@@ -431,17 +431,15 @@ export default {
               this.isHost = true;
             } else if (response.body.role === "ADMIN") {
               this.$router.push("/");
-              location.reload();
             } else if (response.body.role === "GUEST") {
               this.$router.push("/");
-              location.reload();
             }
           }
         });
     }
 
     this.$http
-      .get("http://localhost:8082/PocetniREST/rest/amenity/all", {
+      .get("http://localhost:80/PocetniREST/rest/amenity/all", {
         headers: this.headers
       })
       .then(response => {

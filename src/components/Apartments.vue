@@ -236,11 +236,11 @@ export default {
     deleteApartment: function(id) {
       this.$http
         .delete(
-          `http://localhost:8082/PocetniREST/rest/apartments/delete/${id}`,
+          `http://localhost:80/PocetniREST/rest/apartments/delete/${id}`,
           { headers: this.headers }
         )
         .then(response => {
-          location.reload();
+          this.$router.push(`/apartments`);
           console.log(response.body);
         });
     },
@@ -287,7 +287,7 @@ export default {
     sortApartmentsHost() {
     this.$http
       .post(
-        `http://localhost:8082/PocetniREST/rest/apartments/sortHost/${this.selectedSort}/${this.user.username}`,
+        `http://localhost:80/PocetniREST/rest/apartments/sortHost/${this.selectedSort}/${this.user.username}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -299,7 +299,7 @@ export default {
   sortApartmentsAdmin() {
     this.$http
       .post(
-        `http://localhost:8082/PocetniREST/rest/apartments/sortAdmin/${this.selectedSort}`,
+        `http://localhost:80/PocetniREST/rest/apartments/sortAdmin/${this.selectedSort}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -311,7 +311,7 @@ export default {
   filterByTypeAdmin() {
     this.$http
       .post(
-        `http://localhost:8082/PocetniREST/rest/apartments/filter-by-type/${this.selectedType}`,
+        `http://localhost:80/PocetniREST/rest/apartments/filter-by-type/${this.selectedType}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -323,7 +323,7 @@ export default {
   filterByTypeHost() {
     this.$http
       .post(
-        `http://localhost:8082/PocetniREST/rest/apartments/filter-by-type/${this.user.username}/${this.selectedType}`,
+        `http://localhost:80/PocetniREST/rest/apartments/filter-by-type/${this.user.username}/${this.selectedType}`,
         { headers: this.headers }
       )
       .then(response => {
@@ -335,7 +335,7 @@ export default {
   filterByStatus() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/filter-by-status/${this.selectedStatus}`,
+          `http://localhost:80/PocetniREST/rest/apartments/filter-by-status/${this.selectedStatus}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -347,7 +347,7 @@ export default {
     filterByStatusHost() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/filter-by-status/${this.user.username}/${this.selectedStatus}`,
+          `http://localhost:80/PocetniREST/rest/apartments/filter-by-status/${this.user.username}/${this.selectedStatus}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -363,7 +363,7 @@ export default {
     if (this.$session.exists()) {
       this.$http
         .get(
-          `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
+          `http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get(
             "idOne"
           )}`,
           { headers: this.headers }
@@ -380,7 +380,7 @@ export default {
 
               this.$http
                 .get(
-                  `http://localhost:8082/PocetniREST/rest/apartments/allactive/${this.$session.get(
+                  `http://localhost:80/PocetniREST/rest/apartments/allactive/${this.$session.get(
                     "idOne"
                   )}`,
                   { headers: this.headers }
@@ -395,7 +395,7 @@ export default {
 
               this.$http
                 .get(
-                  `http://localhost:8082/PocetniREST/rest/apartments/inactive/all/{idOne}${this.$session.get(
+                  `http://localhost:80/PocetniREST/rest/apartments/inactive/all/{idOne}${this.$session.get(
                     "idOne"
                   )}`,
                   { headers: this.headers }
@@ -407,7 +407,7 @@ export default {
                 });
 
               this.$http
-                .get(`http://localhost:8082/PocetniREST/rest/apartments/all`, {
+                .get(`http://localhost:80/PocetniREST/rest/apartments/all`, {
                   headers: this.headers
                 })
                 .then(response => {
@@ -417,7 +417,7 @@ export default {
               this.isAdmin = true;
 
               this.$http
-                .get(`http://localhost:8082/PocetniREST/rest/apartments/all`, {
+                .get(`http://localhost:80/PocetniREST/rest/apartments/all`, {
                   headers: this.headers
                 })
                 .then(response => {
@@ -425,7 +425,6 @@ export default {
                 });
             } else {
               this.$router.push("/");
-              location.reload();
             }
           }
         });

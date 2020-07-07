@@ -62,7 +62,7 @@ export default {
         }
 
 
-      this.$http.post('http://localhost:8082/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
+      this.$http.post('http://localhost:80/PocetniREST/rest/login', this.user, {headers:this.headers}).then((response) =>{
         if(response.ok){
          
           this.$session.start(); 

@@ -125,7 +125,7 @@ export default {
         console.log(this.user);
     
 
-      this.$http.post('http://localhost:8082/PocetniREST/rest/edituser', object, {headers:this.headers}).then((response) =>{
+      this.$http.post('http://localhost:80/PocetniREST/rest/edituser', object, {headers:this.headers}).then((response) =>{
         if(response.ok){
           this.$swal('You successfully changed your information!');
          
@@ -146,7 +146,7 @@ export default {
       
     if(this.$session.exists()){
 
-        this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
+        this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then((response) => {
       
       if(response.status == 400){
           this.$swal('Error');

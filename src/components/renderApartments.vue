@@ -152,7 +152,7 @@ export default {
   created() {
     console.log(this.isLoggedInGuest);
     this.$http
-      .get(`http://localhost:8082/PocetniREST/rest/apartments/all-active`, {
+      .get(`http://localhost:80/PocetniREST/rest/apartments/all-active`, {
         headers: this.headers
       })
       .then(response => {
@@ -163,7 +163,7 @@ export default {
     if (this.$session.exists()) {
       this.$http
         .get(
-          `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
+          `http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get(
             "idOne"
           )}`,
           { headers: this.headers }
@@ -205,7 +205,7 @@ export default {
 
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/filter`,
+          `http://localhost:80/PocetniREST/rest/apartments/filter`,
           filter,
           { headers: this.headers }
         )
@@ -218,7 +218,7 @@ export default {
     sortApartments() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/sortGuest/${this.selectedSort}`,
+          `http://localhost:80/PocetniREST/rest/apartments/sortGuest/${this.selectedSort}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -230,7 +230,7 @@ export default {
     filterByType() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/filter-by-type/${this.selectedType}`,
+          `http://localhost:80/PocetniREST/rest/apartments/filter-by-type/${this.selectedType}`,
           { headers: this.headers }
         )
         .then(response => {
@@ -242,7 +242,7 @@ export default {
     filterByStatus() {
       this.$http
         .post(
-          `http://localhost:8082/PocetniREST/rest/apartments/filter-by-status/${this.selectedStatus}`,
+          `http://localhost:80/PocetniREST/rest/apartments/filter-by-status/${this.selectedStatus}`,
           { headers: this.headers }
         )
         .then(response => {

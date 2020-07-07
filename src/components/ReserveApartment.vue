@@ -63,7 +63,7 @@ export default {
 
         console.log(r);
         
-         this.$http.post('http://localhost:8082/PocetniREST/rest/reservations/save', r, {headers:this.headers}).then(() => {
+         this.$http.post('http://localhost:80/PocetniREST/rest/reservations/save', r, {headers:this.headers}).then(() => {
           alert('Uspesno!');
           this.$router.push('/');
         }, (response) => {
@@ -76,7 +76,7 @@ export default {
       //ako se ymd ne nalazi u spisku dana koji su slobodni vrati true
       this.$http
         .get(
-          `http://localhost:8082/PocetniREST/rest/apartments/freedates/${this.$route.params.name}`,
+          `http://localhost:80/PocetniREST/rest/apartments/freedates/${this.$route.params.name}`,
           {
             headers: this.headers
           }
@@ -105,7 +105,7 @@ export default {
       if (this.$session.exists()) {
         this.$http
           .get(
-            `http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get(
+            `http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get(
               "idOne"
             )}`,
             { headers: this.headers }

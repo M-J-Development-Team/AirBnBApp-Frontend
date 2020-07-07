@@ -203,9 +203,9 @@ export default {
        beforeCreate() {
           if(this.$session.exists()){
 
-              this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then(response => {
+              this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get('idOne')}` ,{headers:this.headers}).then(response => {
                   
-                  this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/${this.$route.params.id}`,{ headers: this.headers }).then(resp => {
+                  this.$http.get(`http://localhost:80/PocetniREST/rest/apartments/${this.$route.params.id}`,{ headers: this.headers }).then(resp => {
                       this.apartment = resp.body;
                       this.rating = resp.body.rating;                     
                       console.log('this is rating'+this.rating);
@@ -215,7 +215,7 @@ export default {
                     this.user =  response.body;   
                         
                      
-                      this.$http.get(`http://localhost:8082/PocetniREST/rest/check-can-comment/${this.user.idOne}/${this.$route.params.id}`,{ headers: this.headers }).then(respCheck => {
+                      this.$http.get(`http://localhost:80/PocetniREST/rest/check-can-comment/${this.user.idOne}/${this.$route.params.id}`,{ headers: this.headers }).then(respCheck => {
                            
                           if(respCheck.status == 200){
                              this.canComment = true;
@@ -237,7 +237,7 @@ export default {
               });
           }else{
 
-             this.$http.get(`http://localhost:8082/PocetniREST/rest/apartments/${this.$route.params.id}`,{ headers: this.headers }).then(resp => {
+             this.$http.get(`http://localhost:80/PocetniREST/rest/apartments/${this.$route.params.id}`,{ headers: this.headers }).then(resp => {
                       this.apartment = resp.body;
                      this.rating = resp.body.rating;
                       console.log('this is rating'+this.rating);
@@ -259,10 +259,11 @@ export default {
      submitComment : function(){
             
         this.comment.guest = this.user.username;
-        this.$http.post(`http://localhost:8082/PocetniREST/rest/submit-comment`,this.comment,{ headers: this.headers }).then(resp => {
+        this.$http.post(`http://localhost:80/PocetniREST/rest/submit-comment`,this.comment,{ headers: this.headers }).then(resp => {
 
             console.log(resp.body);
-            location.reload();
+            this.$swal("Successfully submitted");
+            this.$router.push(`/`);
              });
        },
 

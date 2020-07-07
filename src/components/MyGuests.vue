@@ -71,14 +71,14 @@ export default {
 
   created() {
     if (this.$session.exists()) {
-      this.$http.get(`http://localhost:8082/PocetniREST/rest/userinfo/${this.$session.get("idOne")}`,{ headers: this.headers }).then(response => {
+      this.$http.get(`http://localhost:80/PocetniREST/rest/userinfo/${this.$session.get("idOne")}`,{ headers: this.headers }).then(response => {
           if (response.status == 400) {
             this.$swal("Error");
           }if(response.body.role !== 'HOST'){
               this.$router.push("/");
           } 
           else {
-              this.$http.get(`http://localhost:8082/PocetniREST/rest/reservations/all-my-guests/${this.$session.get("idOne")}`,{ headers: this.headers } ).then(resp => {
+              this.$http.get(`http://localhost:80/PocetniREST/rest/reservations/all-my-guests/${this.$session.get("idOne")}`,{ headers: this.headers } ).then(resp => {
                 this.guests = resp.body;
                 this.allGuests = resp.body;
                 });           

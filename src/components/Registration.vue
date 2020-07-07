@@ -52,7 +52,7 @@ export default {
   methods: {
     register: function() {
       this.$http
-        .post("http://localhost:8082/PocetniREST/rest/register", this.user, {
+        .post("http://localhost:80/PocetniREST/rest/register", this.user, {
           headers: this.headers
         })
         .then(
